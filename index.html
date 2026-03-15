@@ -3,1321 +3,1057 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Babymoon Journey Planner</title>
+  <title>Babymoon Journey · Planner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
   <style>
-    /* ─── Reset & Base ─────────────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --blue:#1A73E8;--blue-bg:#E8F0FE;--blue-dark:#1557B0;
+      --green:#34A853;--green-bg:#E6F4EA;
+      --orange:#FA7B17;--orange-bg:#FEF3E2;
+      --red:#EA4335;
+      --text:#202124;--text2:#5F6368;--text3:#80868B;
+      --bg:#F8F9FA;--card:#fff;--border:#DADCE0;
+      --shadow:0 1px 3px rgba(60,64,67,.15),0 2px 6px rgba(60,64,67,.1);
+      --shadow-lg:0 4px 12px rgba(60,64,67,.2),0 8px 24px rgba(60,64,67,.12);
+      --r:8px;--r-lg:16px;--r-pill:24px;
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'Roboto',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;min-height:100vh}
 
-    :root {
-      --bg:          #0f1117;
-      --surface:     #181c27;
-      --card:        #1e2333;
-      --border:      #2a3047;
-      --gold:        #c9a84c;
-      --gold-light:  #e8c97a;
-      --blue:        #5b8fa8;
-      --blue-light:  #7fb3cc;
-      --sage:        #7a9e7e;
-      --sage-light:  #a3c4a7;
-      --text:        #e8e4dc;
-      --muted:       #8a8fa8;
-      --radius:      12px;
-      --radius-lg:   20px;
-      --shadow:      0 4px 32px rgba(0,0,0,.45);
+    /* ── Top bar ── */
+    .topbar{
+      position:sticky;top:0;z-index:200;
+      background:var(--card);
+      box-shadow:0 1px 0 var(--border),0 2px 4px rgba(60,64,67,.08);
+      padding:0 16px;
+      display:flex;align-items:center;gap:12px;
+      height:56px;
     }
+    .topbar-icon{width:36px;height:36px;border-radius:50%;background:var(--blue-bg);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+    .topbar-title{font-size:16px;font-weight:500;color:var(--text);flex:1}
+    .topbar-sub{font-size:11px;color:var(--text2);margin-top:1px}
+    .topbar-actions{display:flex;gap:4px}
+    .topbar-btn{width:36px;height:36px;border:none;background:none;cursor:pointer;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--text2);font-size:18px;transition:background .15s}
+    .topbar-btn:hover{background:var(--bg)}
 
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'Georgia', 'Times New Roman', serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.7;
-      font-size: 16px;
-    }
-
-    h1,h2,h3,h4 { font-weight: normal; letter-spacing: .02em; }
-    a { color: var(--gold); text-decoration: none; }
-
-    .sans { font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
-
-    /* ─── Header / Nav ─────────────────────────────────────────── */
-    .site-nav {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(15,17,23,.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 1.5rem;
-    }
-    .nav-inner {
-      max-width: 1100px; margin: 0 auto;
-      display: flex; align-items: center; gap: 2rem;
-      height: 56px;
-    }
-    .nav-logo {
-      font-size: .75rem; letter-spacing: .18em; text-transform: uppercase;
-      color: var(--gold); white-space: nowrap; font-family: -apple-system, sans-serif;
-    }
-    .nav-tabs {
-      display: flex; gap: .25rem; list-style: none; margin-left: auto;
-    }
-    .nav-tabs button {
-      background: none; border: none; cursor: pointer;
-      font-family: -apple-system, sans-serif; font-size: .8rem;
-      letter-spacing: .1em; text-transform: uppercase;
-      color: var(--muted); padding: .4rem .8rem; border-radius: 6px;
-      transition: color .2s, background .2s;
-    }
-    .nav-tabs button:hover  { color: var(--text); background: rgba(255,255,255,.06); }
-    .nav-tabs button.active { color: var(--gold); background: rgba(201,168,76,.12); }
-
-    /* ─── Layout wrapper ───────────────────────────────────────── */
-    .page { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
-
-    /* ─── Hero ─────────────────────────────────────────────────── */
-    .hero {
-      padding: 5rem 1.5rem 4rem;
-      text-align: center;
-      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(91,143,168,.15) 0%, transparent 70%);
-    }
-    .hero-eyebrow {
-      font-family: -apple-system, sans-serif; font-size: .7rem;
-      letter-spacing: .25em; text-transform: uppercase; color: var(--gold);
-      margin-bottom: 1.5rem;
-    }
-    .hero h1 {
-      font-size: clamp(2rem, 5vw, 3.8rem);
-      line-height: 1.15;
-      background: linear-gradient(135deg, var(--gold-light) 0%, var(--text) 50%, var(--blue-light) 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-      margin-bottom: 1rem;
-    }
-    .hero-sub {
-      font-size: clamp(.95rem, 2vw, 1.2rem); color: var(--muted);
-      max-width: 620px; margin: 0 auto 2rem;
-    }
-    .hero-dates {
-      font-family: -apple-system, sans-serif; font-size: .85rem;
-      color: var(--blue-light); letter-spacing: .08em; margin-bottom: 2rem;
-    }
-    .tag-row { display: flex; flex-wrap: wrap; gap: .5rem; justify-content: center; }
-    .tag {
-      font-family: -apple-system, sans-serif; font-size: .7rem;
-      letter-spacing: .1em; text-transform: uppercase;
-      padding: .3rem .75rem; border-radius: 100px;
-      background: rgba(255,255,255,.06); border: 1px solid var(--border);
-      color: var(--muted);
-    }
-    .tag.gold   { border-color: rgba(201,168,76,.4);  color: var(--gold);       background: rgba(201,168,76,.08); }
-    .tag.blue   { border-color: rgba(91,143,168,.4);  color: var(--blue-light); background: rgba(91,143,168,.08); }
-    .tag.sage   { border-color: rgba(122,158,126,.4); color: var(--sage-light); background: rgba(122,158,126,.08); }
-
-    /* ─── Section titles ───────────────────────────────────────── */
-    .section-header {
-      padding: 3.5rem 0 2rem;
-      display: flex; align-items: baseline; gap: 1rem;
-    }
-    .section-title {
-      font-size: clamp(1.2rem, 3vw, 1.7rem); color: var(--text);
-    }
-    .section-line {
-      flex: 1; height: 1px; background: var(--border); margin-left: .5rem;
+    /* ── Desktop tabs (>768px) ── */
+    .desktop-tabs{display:none}
+    @media(min-width:769px){
+      .desktop-tabs{
+        display:flex;background:var(--card);border-bottom:1px solid var(--border);
+        padding:0 24px;gap:0;position:sticky;top:56px;z-index:100;
+      }
+      .dtab{
+        padding:0 20px;height:48px;border:none;background:none;cursor:pointer;
+        font-family:'Roboto',sans-serif;font-size:13px;font-weight:500;
+        color:var(--text2);letter-spacing:.01em;text-transform:uppercase;
+        border-bottom:3px solid transparent;transition:color .2s,border-color .2s;
+        display:flex;align-items:center;gap:6px;
+      }
+      .dtab:hover{color:var(--blue);background:var(--blue-bg)}
+      .dtab.active{color:var(--blue);border-bottom-color:var(--blue)}
+      .bottom-nav{display:none!important}
     }
 
-    /* ─── Trip Summary ─────────────────────────────────────────── */
-    .summary-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 1rem; margin-bottom: 2rem;
+    /* ── Bottom nav (mobile) ── */
+    .bottom-nav{
+      position:fixed;bottom:0;left:0;right:0;z-index:200;
+      background:var(--card);
+      border-top:1px solid var(--border);
+      display:flex;
+      padding-bottom:env(safe-area-inset-bottom,0);
     }
-    .summary-card {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 1.25rem 1.25rem 1rem;
+    .bnav-btn{
+      flex:1;padding:8px 4px 10px;border:none;background:none;cursor:pointer;
+      display:flex;flex-direction:column;align-items:center;gap:3px;
+      font-family:'Roboto',sans-serif;font-size:10px;font-weight:500;
+      color:var(--text3);letter-spacing:.03em;transition:color .15s;
     }
-    .summary-card-label {
-      font-family: -apple-system, sans-serif; font-size: .65rem;
-      letter-spacing: .18em; text-transform: uppercase; color: var(--muted);
-      margin-bottom: .4rem;
+    .bnav-btn .icon{font-size:20px;line-height:1}
+    .bnav-btn.active{color:var(--blue)}
+    .bnav-btn.active .bnav-indicator{
+      display:block;width:32px;height:2px;background:var(--blue);
+      border-radius:1px;margin-top:2px;
     }
-    .summary-card-value {
-      font-size: 1.05rem; color: var(--text);
-    }
-    .summary-card-sub {
-      font-family: -apple-system, sans-serif; font-size: .78rem;
-      color: var(--muted); margin-top: .2rem;
-    }
-    .pill-row { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .5rem; }
-    .pill {
-      font-family: -apple-system, sans-serif; font-size: .7rem;
-      padding: .2rem .6rem; border-radius: 100px;
-      background: rgba(91,143,168,.15); color: var(--blue-light);
-      border: 1px solid rgba(91,143,168,.25);
-    }
-    .pill.gold { background: rgba(201,168,76,.12); color: var(--gold-light); border-color: rgba(201,168,76,.25); }
-    .pill.sage { background: rgba(122,158,126,.12); color: var(--sage-light); border-color: rgba(122,158,126,.25); }
+    .bnav-indicator{display:none}
 
-    /* ─── Timeline ─────────────────────────────────────────────── */
-    .timeline { position: relative; padding-left: 2rem; }
-    .timeline::before {
-      content: ''; position: absolute; left: 7px; top: 0; bottom: 0;
-      width: 2px; background: linear-gradient(to bottom, var(--gold) 0%, var(--blue) 60%, transparent 100%);
-    }
+    /* ── Page wrapper ── */
+    .page{max-width:1100px;margin:0 auto;padding:16px 16px 96px}
+    @media(min-width:769px){.page{padding:24px 24px 40px}}
 
-    .day-card {
-      position: relative; margin-bottom: 1.25rem;
-    }
-    .day-dot {
-      position: absolute; left: -2rem; top: 1.1rem;
-      width: 14px; height: 14px; border-radius: 50%;
-      border: 2px solid var(--gold); background: var(--bg);
-      transition: background .2s;
-    }
-    .day-card.open .day-dot { background: var(--gold); }
+    /* ── Tab views ── */
+    .tab-view{display:none}
+    .tab-view.active{display:block}
+    @media print{.tab-view{display:block!important}}
 
-    .day-header {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 1rem 1.25rem;
-      cursor: pointer; display: flex; align-items: center; gap: 1rem;
-      transition: border-color .2s, background .2s;
-      user-select: none;
+    /* ── Hero card ── */
+    .hero-card{
+      background:var(--card);border-radius:var(--r-lg);
+      box-shadow:var(--shadow);overflow:hidden;margin-bottom:16px;
     }
-    .day-header:hover { border-color: rgba(201,168,76,.35); background: rgba(201,168,76,.04); }
-    .day-card.open .day-header {
-      border-color: rgba(201,168,76,.5);
-      border-bottom-left-radius: 0; border-bottom-right-radius: 0;
-      background: rgba(201,168,76,.06);
+    .hero-banner{
+      height:120px;
+      background:linear-gradient(135deg,#1A73E8 0%,#0D47A1 40%,#1565C0 70%,#00ACC1 100%);
+      display:flex;align-items:center;justify-content:center;
+      position:relative;overflow:hidden;
     }
+    .hero-banner::before{
+      content:'';position:absolute;inset:0;
+      background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .hero-emoji{font-size:48px;filter:drop-shadow(0 2px 8px rgba(0,0,0,.3))}
+    .hero-body{padding:16px}
+    .hero-title{font-size:22px;font-weight:700;color:var(--text);margin-bottom:4px}
+    .hero-sub{font-size:13px;color:var(--text2);margin-bottom:12px}
+    .hero-date-row{
+      display:flex;align-items:center;gap:6px;
+      font-size:12px;color:var(--text2);margin-bottom:12px;
+    }
+    .hero-chips{display:flex;flex-wrap:wrap;gap:6px}
+    .chip{
+      display:inline-flex;align-items:center;gap:4px;
+      padding:4px 12px;border-radius:var(--r-pill);
+      font-size:12px;font-weight:500;border:1.5px solid;
+    }
+    .chip-blue{color:var(--blue);border-color:var(--blue);background:var(--blue-bg)}
+    .chip-green{color:var(--green);border-color:var(--green);background:var(--green-bg)}
+    .chip-orange{color:var(--orange);border-color:var(--orange);background:var(--orange-bg)}
+    .chip-outline{color:var(--text2);border-color:var(--border);background:var(--card)}
 
-    .day-label {
-      font-family: -apple-system, sans-serif; font-size: .65rem;
-      letter-spacing: .2em; text-transform: uppercase; color: var(--gold);
-      white-space: nowrap; min-width: 44px;
+    /* ── Summary strip ── */
+    .summary-strip{
+      display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:16px;
+      scrollbar-width:none;-ms-overflow-style:none;
     }
-    .day-route { flex: 1; font-size: 1rem; color: var(--text); }
-    .day-route-arrow { color: var(--muted); margin: 0 .4rem; }
-    .day-meta {
-      font-family: -apple-system, sans-serif; font-size: .75rem;
-      color: var(--muted); white-space: nowrap;
+    .summary-strip::-webkit-scrollbar{display:none}
+    .sum-card{
+      flex-shrink:0;background:var(--card);border-radius:var(--r);
+      box-shadow:var(--shadow);padding:12px 14px;min-width:110px;
+      display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;
     }
-    .day-chevron {
-      font-size: .7rem; color: var(--muted); transition: transform .25s;
-      margin-left: .5rem;
-    }
-    .day-card.open .day-chevron { transform: rotate(180deg); }
+    .sum-icon{font-size:20px}
+    .sum-val{font-size:16px;font-weight:700;color:var(--text)}
+    .sum-label{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.05em}
 
-    .day-body {
-      display: none; background: rgba(30,35,51,.8);
-      border: 1px solid rgba(201,168,76,.35); border-top: none;
-      border-bottom-left-radius: var(--radius);
-      border-bottom-right-radius: var(--radius);
-      padding: 1.5rem 1.5rem 1.75rem;
+    /* ── Section header ── */
+    .section-hdr{
+      display:flex;align-items:center;gap:10px;
+      padding:20px 0 12px;
     }
-    .day-card.open .day-body { display: block; }
+    .section-hdr h2{font-size:14px;font-weight:500;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap}
+    .section-hdr-line{flex:1;height:1px;background:var(--border)}
 
-    .day-body-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.25rem;
-    }
-    @media (max-width: 640px) { .day-body-grid { grid-template-columns: 1fr; } }
+    /* ── Timeline ── */
+    .timeline{display:flex;flex-direction:column;gap:0}
+    .tl-item{display:flex;gap:0;position:relative}
 
-    .info-block { margin-bottom: 1rem; }
-    .info-label {
-      font-family: -apple-system, sans-serif; font-size: .65rem;
-      letter-spacing: .15em; text-transform: uppercase; color: var(--gold);
-      margin-bottom: .3rem;
+    /* Connector line */
+    .tl-left{
+      width:40px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;
+      padding-top:18px;
     }
-    .info-value { font-size: .9rem; color: var(--text); }
-    .info-sub   { font-family: -apple-system, sans-serif; font-size: .78rem; color: var(--muted); }
+    .tl-dot{
+      width:14px;height:14px;border-radius:50%;border:2.5px solid var(--blue);
+      background:var(--card);flex-shrink:0;z-index:1;
+    }
+    .tl-dot.overnight{background:var(--blue);border-color:var(--blue)}
+    .tl-dot.lunch{background:var(--orange);border-color:var(--orange);border-radius:3px;transform:rotate(45deg);width:12px;height:12px}
+    .tl-dot.home{background:var(--green);border-color:var(--green)}
+    .tl-line{width:2px;flex:1;background:var(--border);margin-top:4px}
+    .tl-item:last-child .tl-line{display:none}
 
-    .fact-box {
-      grid-column: 1 / -1;
-      background: rgba(91,143,168,.08); border: 1px solid rgba(91,143,168,.2);
-      border-radius: 8px; padding: .85rem 1rem;
-      font-size: .88rem; color: var(--blue-light); font-style: italic;
-    }
-    .fact-box::before { content: '✦  '; font-style: normal; font-size: .7rem; }
+    .tl-right{flex:1;padding:8px 0 0;min-width:0}
 
-    .rec-row { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .4rem; }
-    .rec-chip {
-      font-family: -apple-system, sans-serif; font-size: .72rem;
-      padding: .2rem .6rem; border-radius: 100px;
-      background: rgba(255,255,255,.05); border: 1px solid var(--border);
-      color: var(--muted);
+    /* Day card */
+    .day-card{
+      background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);
+      margin-bottom:12px;overflow:hidden;
     }
-    .rec-chip.see  { color: var(--blue-light);  border-color: rgba(91,143,168,.3);  background: rgba(91,143,168,.07); }
-    .rec-chip.do   { color: var(--sage-light);  border-color: rgba(122,158,126,.3); background: rgba(122,158,126,.07); }
-    .rec-chip.eat  { color: var(--gold-light);  border-color: rgba(201,168,76,.3);  background: rgba(201,168,76,.07); }
+    .day-header{
+      padding:12px 14px;cursor:pointer;
+      display:flex;align-items:center;gap:10px;
+      user-select:none;-webkit-tap-highlight-color:transparent;
+      transition:background .15s;
+    }
+    .day-header:hover{background:#F8F9FA}
+    .day-label-badge{
+      background:var(--blue-bg);color:var(--blue);
+      font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+      padding:3px 8px;border-radius:var(--r-pill);white-space:nowrap;flex-shrink:0;
+    }
+    .day-label-badge.lunch-badge{background:var(--orange-bg);color:var(--orange)}
+    .day-header-mid{flex:1;min-width:0}
+    .day-route-text{font-size:14px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .day-drive{font-size:12px;color:var(--text2);margin-top:1px}
+    .day-chevron{
+      color:var(--text3);font-size:16px;flex-shrink:0;
+      transition:transform .2s;
+    }
+    .day-card.open .day-chevron{transform:rotate(180deg)}
 
-    .pace-note {
-      grid-column: 1 / -1; margin-top: .5rem;
-      font-family: -apple-system, sans-serif; font-size: .78rem;
-      color: var(--sage-light);
-      display: flex; align-items: flex-start; gap: .5rem;
-    }
-    .pace-note::before { content: '◌'; font-size: .9rem; flex-shrink: 0; margin-top: .05rem; }
+    /* Day body */
+    .day-body{display:none;border-top:1px solid var(--border)}
+    .day-card.open .day-body{display:block}
 
-    /* ─── Route Map ─────────────────────────────────────────────── */
-    .route-section {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius-lg); padding: 2rem 2rem 2.5rem;
-      overflow: hidden;
-    }
-    .route-section h3 {
-      font-size: .7rem; letter-spacing: .2em; text-transform: uppercase;
-      color: var(--muted); font-family: -apple-system, sans-serif;
-      text-align: center; margin-bottom: 1.5rem;
-    }
-    .route-svg-wrap { max-width: 780px; margin: 0 auto; }
-    .route-svg-wrap svg { width: 100%; height: auto; overflow: visible; }
+    .day-section{padding:12px 14px;border-bottom:1px solid var(--border)}
+    .day-section:last-child{border-bottom:none}
 
-    /* ─── Eat See Do ─────────────────────────────────────────────── */
-    .esd-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.25rem;
+    .ds-label{
+      font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+      color:var(--text3);margin-bottom:6px;display:flex;align-items:center;gap:5px;
     }
-    .esd-card {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 1.5rem;
-    }
-    .esd-place {
-      font-size: .65rem; letter-spacing: .18em; text-transform: uppercase;
-      color: var(--muted); font-family: -apple-system, sans-serif;
-      margin-bottom: .6rem;
-    }
-    .esd-name { font-size: 1.05rem; color: var(--text); margin-bottom: 1rem; }
-    .esd-group { margin-bottom: .75rem; }
-    .esd-group-label {
-      font-family: -apple-system, sans-serif; font-size: .6rem;
-      letter-spacing: .15em; text-transform: uppercase;
-      margin-bottom: .35rem;
-    }
-    .esd-group-label.see { color: var(--blue-light); }
-    .esd-group-label.do  { color: var(--sage-light); }
-    .esd-group-label.eat { color: var(--gold-light); }
-    .esd-list {
-      list-style: none; font-family: -apple-system, sans-serif;
-      font-size: .82rem; color: var(--muted); display: flex; flex-direction: column; gap: .2rem;
-    }
-    .esd-list li::before { content: '– '; }
+    .ds-label-blue{color:var(--blue)}
+    .ds-label-green{color:var(--green)}
+    .ds-label-orange{color:var(--orange)}
 
-    /* ─── Hotels strip ───────────────────────────────────────────── */
-    .hotels-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 1rem;
-    }
-    .hotel-card {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 1.25rem 1.25rem 1rem;
-      border-left: 3px solid var(--gold);
-    }
-    .hotel-name { font-size: .95rem; color: var(--text); margin-bottom: .25rem; }
-    .hotel-location {
-      font-family: -apple-system, sans-serif; font-size: .75rem;
-      color: var(--muted); margin-bottom: .5rem;
-    }
-    .hotel-dates {
-      font-family: -apple-system, sans-serif; font-size: .72rem;
-      color: var(--gold); display: flex; align-items: center; gap: .4rem;
-    }
-    .hotel-dates .nights {
-      background: rgba(201,168,76,.12); border: 1px solid rgba(201,168,76,.25);
-      border-radius: 100px; padding: .15rem .5rem; font-size: .65rem;
-    }
-    .hotel-confirmed {
-      font-family: -apple-system, sans-serif; font-size: .62rem;
-      letter-spacing: .12em; text-transform: uppercase;
-      color: var(--sage-light); margin-top: .5rem;
+    .fact-box{
+      background:var(--blue-bg);border-left:3px solid var(--blue);
+      border-radius:0 6px 6px 0;padding:10px 12px;
+      font-size:13px;color:#1557B0;font-style:italic;line-height:1.5;
     }
 
-    /* ─── Practical notes ────────────────────────────────────────── */
-    .notes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; }
-    .note-card {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 1.25rem;
+    .hotel-row{
+      display:flex;align-items:center;gap:10px;
+      background:var(--green-bg);border-radius:6px;padding:10px 12px;
     }
-    .note-icon { font-size: 1.3rem; margin-bottom: .5rem; }
-    .note-title {
-      font-family: -apple-system, sans-serif; font-size: .75rem;
-      letter-spacing: .1em; text-transform: uppercase; color: var(--gold);
-      margin-bottom: .5rem;
-    }
-    .note-text { font-family: -apple-system, sans-serif; font-size: .82rem; color: var(--muted); line-height: 1.6; }
-
-    /* ─── Footer ─────────────────────────────────────────────────── */
-    footer {
-      border-top: 1px solid var(--border); margin-top: 5rem; padding: 2rem 1.5rem;
-      text-align: center;
-      font-family: -apple-system, sans-serif; font-size: .72rem; color: var(--muted);
+    .hotel-icon{font-size:20px;flex-shrink:0}
+    .hotel-name-text{font-size:13px;font-weight:500;color:var(--text)}
+    .hotel-loc{font-size:11px;color:var(--text2)}
+    .hotel-dates-badge{
+      margin-left:auto;flex-shrink:0;
+      background:var(--green);color:#fff;
+      font-size:10px;font-weight:700;
+      padding:3px 8px;border-radius:var(--r-pill);
     }
 
-    /* ─── Tab views ──────────────────────────────────────────────── */
-    .tab-view { display: none; }
-    .tab-view.active { display: block; }
-
-    /* ─── Print ──────────────────────────────────────────────────── */
-    @media print {
-      .site-nav { display: none; }
-      .day-body { display: block !important; }
-      .tab-view { display: block !important; }
+    .lunch-row{
+      display:flex;align-items:center;gap:10px;
+      background:var(--orange-bg);border-radius:6px;padding:10px 12px;
     }
+    .lunch-icon{font-size:20px;flex-shrink:0}
+    .lunch-name-text{font-size:13px;font-weight:500;color:var(--text)}
+    .lunch-sub{font-size:11px;color:var(--text2)}
 
-    /* ─── Scrollbar ──────────────────────────────────────────────── */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    .rec-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:2px}
+    .rc{
+      display:inline-flex;align-items:center;gap:3px;
+      padding:3px 10px;border-radius:var(--r-pill);
+      font-size:12px;border:1px solid;
+    }
+    .rc-blue{color:var(--blue);border-color:rgba(26,115,232,.3);background:var(--blue-bg)}
+    .rc-green{color:#137333;border-color:rgba(52,168,83,.3);background:var(--green-bg)}
+    .rc-orange{color:#c26401;border-color:rgba(250,123,23,.3);background:var(--orange-bg)}
+
+    .pace-note{
+      display:flex;align-items:flex-start;gap:8px;
+      font-size:12px;color:var(--text2);font-style:italic;
+    }
+    .pace-note::before{content:'💬';font-size:14px;flex-shrink:0;font-style:normal}
+
+    /* ── Route SVG ── */
+    .route-card{background:var(--card);border-radius:var(--r-lg);box-shadow:var(--shadow);padding:16px;overflow:hidden}
+    .route-card h3{font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--text2);text-align:center;margin-bottom:16px}
+    .route-svg-wrap{max-width:760px;margin:0 auto}
+    .route-svg-wrap svg{width:100%;height:auto;overflow:visible}
+
+    /* ── ESD grid ── */
+    .esd-grid{display:grid;gap:12px;grid-template-columns:1fr}
+    @media(min-width:600px){.esd-grid{grid-template-columns:1fr 1fr}}
+    @media(min-width:900px){.esd-grid{grid-template-columns:1fr 1fr 1fr}}
+
+    .esd-card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+    .esd-header{
+      padding:12px 14px 10px;
+      border-bottom:1px solid var(--border);
+    }
+    .esd-stop-type{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:2px}
+    .esd-place-name{font-size:15px;font-weight:500;color:var(--text)}
+
+    .esd-section{padding:10px 14px;border-bottom:1px solid var(--border)}
+    .esd-section:last-child{border-bottom:none}
+    .esd-sec-label{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:5px;display:flex;align-items:center;gap:5px}
+    .esd-list{list-style:none;display:flex;flex-direction:column;gap:3px}
+    .esd-list li{font-size:12px;color:var(--text2);display:flex;align-items:flex-start;gap:5px}
+    .esd-list li::before{content:'–';color:var(--text3);flex-shrink:0}
+
+    /* ── Hotels ── */
+    .hotels-list{display:flex;flex-direction:column;gap:1px;background:var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
+    .hotel-item{
+      background:var(--card);padding:14px 16px;
+      display:flex;align-items:center;gap:12px;
+      transition:background .15s;
+    }
+    .hotel-item:hover{background:var(--bg)}
+    .hotel-icon-wrap{
+      width:44px;height:44px;border-radius:var(--r);
+      background:var(--blue-bg);display:flex;align-items:center;justify-content:center;
+      font-size:22px;flex-shrink:0;
+    }
+    .hotel-item-main{flex:1;min-width:0}
+    .hotel-item-name{font-size:14px;font-weight:500;color:var(--text);margin-bottom:2px}
+    .hotel-item-loc{font-size:12px;color:var(--text2)}
+    .hotel-item-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0}
+    .hotel-nights{background:var(--blue-bg);color:var(--blue);font-size:11px;font-weight:700;padding:2px 8px;border-radius:var(--r-pill)}
+    .hotel-confirmed{font-size:10px;color:var(--green);font-weight:700;letter-spacing:.05em;text-transform:uppercase;display:flex;align-items:center;gap:3px}
+    .hotel-dates-text{font-size:11px;color:var(--text3)}
+    .hotel-item.main-base .hotel-icon-wrap{background:var(--green-bg)}
+
+    /* ── Notes ── */
+    .notes-list{display:flex;flex-direction:column;gap:1px;background:var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
+    .note-item{background:var(--card);padding:14px 16px;display:flex;align-items:flex-start;gap:12px}
+    .note-icon-wrap{font-size:22px;flex-shrink:0;width:36px;text-align:center;padding-top:1px}
+    .note-item-main{flex:1}
+    .note-item-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:3px}
+    .note-item-text{font-size:12px;color:var(--text2);line-height:1.6}
+
+    /* ── Print ── */
+    @media print{
+      .topbar,.desktop-tabs,.bottom-nav{display:none!important}
+      .day-body{display:block!important}
+      .tab-view{display:block!important}
+      body{background:#fff}
+    }
   </style>
 </head>
 <body>
 
-<!-- ════════════════════ NAV ════════════════════ -->
-<nav class="site-nav" role="navigation" aria-label="Main navigation">
-  <div class="nav-inner">
-    <span class="nav-logo">Babymoon ✦ March 2025</span>
-    <ul class="nav-tabs" role="tablist">
-      <li><button role="tab" aria-selected="true"  data-tab="itinerary" class="active">Itinerary</button></li>
-      <li><button role="tab" aria-selected="false" data-tab="route">Route</button></li>
-      <li><button role="tab" aria-selected="false" data-tab="esd">Eat, See &amp; Do</button></li>
-      <li><button role="tab" aria-selected="false" data-tab="hotels">Hotels</button></li>
-      <li><button role="tab" aria-selected="false" data-tab="notes">Notes</button></li>
-    </ul>
+<!-- TOP BAR -->
+<header class="topbar">
+  <div class="topbar-icon">🚗</div>
+  <div style="flex:1;min-width:0">
+    <div class="topbar-title">Babymoon Journey</div>
+    <div class="topbar-sub">24 Mar – 3 Apr · 10 Days · Europe</div>
   </div>
-</nav>
-
-<!-- ════════════════════ HERO ════════════════════ -->
-<header class="hero" role="banner">
-  <p class="hero-eyebrow">A Premium Digital Road Book</p>
-  <h1>Babymoon Journey Planner</h1>
-  <p class="hero-sub">A calm European escape through Champagne, the Alps, Lake Garda and back — crafted for comfort, scenery and long lunches.</p>
-  <p class="hero-dates sans">24 March – 3 April 2025 &nbsp;·&nbsp; 10 Days &nbsp;·&nbsp; Self-drive</p>
-  <div class="tag-row" aria-label="Trip style">
-    <span class="tag gold">Luxury Road Trip</span>
-    <span class="tag blue">Scenic Lunch Stops</span>
-    <span class="tag sage">Calm Pace</span>
-    <span class="tag gold">Spa &amp; Food Focused</span>
-    <span class="tag sage">Babymoon</span>
-    <span class="tag blue">Alpine &amp; Lakeside</span>
+  <div class="topbar-actions">
+    <button class="topbar-btn" onclick="window.print()" title="Print">🖨</button>
   </div>
 </header>
 
+<!-- DESKTOP TABS -->
+<nav class="desktop-tabs" role="tablist">
+  <button class="dtab active" data-tab="itinerary" role="tab">📋 Itinerary</button>
+  <button class="dtab" data-tab="route" role="tab">🗺 Route</button>
+  <button class="dtab" data-tab="esd" role="tab">✨ Eat, See &amp; Do</button>
+  <button class="dtab" data-tab="hotels" role="tab">🏨 Hotels</button>
+  <button class="dtab" data-tab="notes" role="tab">ℹ Notes</button>
+</nav>
+
 <main class="page">
 
-<!-- ════════════════════ ITINERARY TAB ════════════════════ -->
-<section id="tab-itinerary" class="tab-view active" role="tabpanel" aria-label="Itinerary">
+<!-- ══════════ ITINERARY ══════════ -->
+<section id="tab-itinerary" class="tab-view active" role="tabpanel">
 
-  <!-- Trip summary -->
-  <div class="section-header">
-    <h2 class="section-title">Trip at a Glance</h2>
-    <div class="section-line"></div>
-  </div>
-
-  <div class="summary-grid">
-    <div class="summary-card">
-      <div class="summary-card-label">Route</div>
-      <div class="summary-card-value">Calais → Alps → Garda → Lucerne → Barive → Calais</div>
-    </div>
-    <div class="summary-card">
-      <div class="summary-card-label">Duration</div>
-      <div class="summary-card-value">10 Days</div>
-      <div class="summary-card-sub">24 Mar – 3 Apr</div>
-    </div>
-    <div class="summary-card">
-      <div class="summary-card-label">Stays</div>
-      <div class="summary-card-value">5 hotels confirmed</div>
-      <div class="pill-row">
-        <span class="pill gold">Champagne</span>
-        <span class="pill">Annecy</span>
-        <span class="pill">Garda</span>
-        <span class="pill">Lucerne</span>
-        <span class="pill sage">Barive</span>
+  <!-- Hero -->
+  <div class="hero-card">
+    <div class="hero-banner"><span class="hero-emoji">🗺️</span></div>
+    <div class="hero-body">
+      <div class="hero-title">Babymoon Journey Planner</div>
+      <div class="hero-sub">A calm European escape through Champagne, the Alps, Lake Garda and back.</div>
+      <div class="hero-date-row">📅 24 March – 3 April 2025 &nbsp;·&nbsp; Self-drive</div>
+      <div class="hero-chips">
+        <span class="chip chip-blue">10 Days</span>
+        <span class="chip chip-green">5 Hotels confirmed</span>
+        <span class="chip chip-orange">4 Scenic lunch stops</span>
+        <span class="chip chip-outline">Calm pace</span>
+        <span class="chip chip-outline">Spa &amp; food focused</span>
       </div>
     </div>
-    <div class="summary-card">
-      <div class="summary-card-label">Longest stay</div>
-      <div class="summary-card-value">Lake Garda</div>
-      <div class="summary-card-sub">5 nights at Lefay Resort &amp; Spa</div>
-    </div>
-    <div class="summary-card">
-      <div class="summary-card-label">Lunch stops</div>
-      <div class="summary-card-value">Beaune · Aosta · Ascona · Colmar</div>
-      <div class="summary-card-sub">Each 60–90 min park &amp; stroll</div>
-    </div>
-    <div class="summary-card">
-      <div class="summary-card-label">Driving days</div>
-      <div class="summary-card-value">Mostly 3–5 hour legs</div>
-      <div class="summary-card-sub">Never more than 5 hrs with stops</div>
-    </div>
+  </div>
+
+  <!-- Summary strip -->
+  <div class="summary-strip">
+    <div class="sum-card"><div class="sum-icon">📍</div><div class="sum-val">7</div><div class="sum-label">Countries/regions</div></div>
+    <div class="sum-card"><div class="sum-icon">🏨</div><div class="sum-val">9</div><div class="sum-label">Nights</div></div>
+    <div class="sum-card"><div class="sum-icon">🍽</div><div class="sum-val">4</div><div class="sum-label">Lunch stops</div></div>
+    <div class="sum-card"><div class="sum-icon">🚗</div><div class="sum-val">3–5h</div><div class="sum-label">Daily drives</div></div>
+    <div class="sum-card"><div class="sum-icon">💆</div><div class="sum-val">5 nts</div><div class="sum-label">Spa base</div></div>
   </div>
 
   <!-- Timeline -->
-  <div class="section-header">
-    <h2 class="section-title">Day by Day</h2>
-    <div class="section-line"></div>
-  </div>
+  <div class="section-hdr"><h2>Day by day</h2><div class="section-hdr-line"></div></div>
 
-  <div class="timeline" id="timeline" role="list">
+  <div class="timeline">
 
-    <!-- Day 1 -->
-    <article class="day-card" role="listitem">
-      <div class="day-dot" aria-hidden="true"></div>
-      <div class="day-header" role="button" tabindex="0" aria-expanded="false" aria-controls="d1-body">
-        <span class="day-label">Day 1</span>
-        <span class="day-route">Calais <span class="day-route-arrow">→</span> Mutigny</span>
-        <span class="day-meta sans">~3 hrs &nbsp;· &nbsp;24 Mar</span>
-        <span class="day-chevron" aria-hidden="true">▼</span>
-      </div>
-      <div class="day-body" id="d1-body">
-        <div class="day-body-grid">
-          <div class="info-block">
-            <div class="info-label">Drive</div>
-            <div class="info-value">Approx. 3 hours</div>
-            <div class="info-sub sans">Straight south through Champagne</div>
+    <!-- DAY 1 -->
+    <div class="tl-item">
+      <div class="tl-left"><div class="tl-dot overnight"></div><div class="tl-line"></div></div>
+      <div class="tl-right">
+        <div class="day-card open">
+          <div class="day-header">
+            <span class="day-label-badge">Day 1</span>
+            <div class="day-header-mid">
+              <div class="day-route-text">Calais → Mutigny</div>
+              <div class="day-drive">~3 hrs · 24 Mar</div>
+            </div>
+            <span class="day-chevron">▾</span>
           </div>
-          <div class="info-block">
-            <div class="info-label">Hotel tonight</div>
-            <div class="info-value">LOISIUM Wine &amp; Spa Hotel Champagne</div>
-            <div class="info-sub sans">Mutigny · 24–25 Mar · Confirmed</div>
-          </div>
-          <div class="fact-box">
-            Mutigny sits within the UNESCO-listed "Champagne Hillsides, Houses and Cellars" cultural landscape, with panoramic views over the Marne Valley and the vine-covered slopes that produce the world's most celebrated sparkling wine.
-          </div>
-          <div class="info-block">
-            <div class="info-label">See</div>
-            <div class="rec-row">
-              <span class="rec-chip see">Vineyard slopes</span>
-              <span class="rec-chip see">Marne Valley panorama</span>
-              <span class="rec-chip see">Sunset viewpoint</span>
+          <div class="day-body">
+            <div class="day-section">
+              <div class="hotel-row">
+                <span class="hotel-icon">🏨</span>
+                <div><div class="hotel-name-text">LOISIUM Wine &amp; Spa Hotel Champagne</div><div class="hotel-loc">Mutigny</div></div>
+                <span class="hotel-dates-badge">24–25 Mar</span>
+              </div>
+            </div>
+            <div class="day-section">
+              <div class="fact-box">ℹ️ Mutigny sits within the UNESCO-listed "Champagne Hillsides, Houses and Cellars" cultural landscape, with panoramic views over the Marne Valley.</div>
+            </div>
+            <div class="day-section">
+              <div class="ds-label ds-label-blue">👁 See</div>
+              <div class="rec-chips">
+                <span class="rc rc-blue">Vineyard slopes</span>
+                <span class="rc rc-blue">Marne Valley panorama</span>
+                <span class="rc rc-blue">Sunset viewpoint</span>
+              </div>
+            </div>
+            <div class="day-section">
+              <div class="ds-label ds-label-green">✦ Do</div>
+              <div class="rec-chips">
+                <span class="rc rc-green">Hotel spa</span>
+                <span class="rc rc-green">Short sunset stroll</span>
+                <span class="rc rc-green">Early dinner</span>
+              </div>
+            </div>
+            <div class="day-section">
+              <div class="ds-label ds-label-orange">🍽 Eat</div>
+              <div class="rec-chips">
+                <span class="rc rc-orange">Regional French bistro</span>
+                <span class="rc rc-orange">Light first-night meal</span>
+                <span class="rc rc-orange">View-facing table</span>
+              </div>
+            </div>
+            <div class="day-section">
+              <div class="pace-note">First-night decompression stop. Short drive, immediate vineyard atmosphere, spa reset. Arrive, breathe, unwind.</div>
             </div>
           </div>
-          <div class="info-block">
-            <div class="info-label">Do</div>
-            <div class="rec-row">
-              <span class="rec-chip do">Hotel spa</span>
-              <span class="rec-chip do">Short sunset stroll</span>
-              <span class="rec-chip do">Early dinner</span>
-            </div>
-          </div>
-          <div class="info-block">
-            <div class="info-label">Eat</div>
-            <div class="rec-row">
-              <span class="rec-chip eat">Regional French bistro</span>
-              <span class="rec-chip eat">Light first-night meal</span>
-              <span class="rec-chip eat">View-facing table</span>
-            </div>
-          </div>
-          <div class="pace-note">First-night decompression. Short drive, immediate vineyard atmosphere, spa reset. Arrive, breathe, unwind.</div>
         </div>
       </div>
-    </article>
+    </div>
 
-    <!-- Day 2 -->
-    <article class="day-card" role="listitem">
-      <div class="day-dot" aria-hidden="true"></div>
-      <div class="day-header" role="button" tabindex="0" aria-expanded="false" aria-controls="d2-body">
-        <span class="day-label">Day 2</span>
-        <span class="day-route">Mutigny <span class="day-route-arrow">→</span> Annecy</span>
-        <span class="day-meta sans">~4.5 hrs &nbsp;· &nbsp;25 Mar</span>
-        <span class="day-chevron" aria-hidden="true">▼</span>
-      </div>
-      <div class="day-body" id="d2-body">
-        <div class="day-body-grid">
-          <div class="info-block">
-            <div class="info-label">Drive</div>
-            <div class="info-value">Approx. 4.5 hours</div>
-            <div class="info-sub sans">Via Beaune for lunch</div>
+    <!-- DAY 2 -->
+    <div class="tl-item">
+      <div class="tl-left"><div class="tl-dot overnight"></div><div class="tl-line"></div></div>
+      <div class="tl-right">
+        <div class="day-card">
+          <div class="day-header">
+            <span class="day-label-badge">Day 2</span>
+            <div class="day-header-mid">
+              <div class="day-route-text">Mutigny → Annecy</div>
+              <div class="day-drive">~4.5 hrs · 25 Mar · via Beaune</div>
+            </div>
+            <span class="day-chevron">▾</span>
           </div>
-          <div class="info-block">
-            <div class="info-label">Lunch stop</div>
-            <div class="info-value">Beaune, Burgundy</div>
-            <div class="info-sub sans">Easy motorway detour · 60–90 min stroll</div>
-          </div>
-          <div class="info-block">
-            <div class="info-label">Hotel tonight</div>
-            <div class="info-value">Black Bass Hotel</div>
-            <div class="info-sub sans">Sévrier, Annecy · 25–26 Mar · Confirmed</div>
-          </div>
-          <div class="fact-box">
-            Beaune's Hospices de Beaune was founded in 1443 as a charity hospital for the poor. Its polychrome Flemish roof tiles are one of the most photographed sights in all of Burgundy — and it still hosts one of the world's most famous wine auctions every November.
-          </div>
-          <div class="info-block">
-            <div class="info-label">Beaune — See</div>
-            <div class="rec-row">
-              <span class="rec-chip see">Hospices de Beaune exterior</span>
-              <span class="rec-chip see">Old town lanes</span>
-              <span class="rec-chip see">Market square</span>
+          <div class="day-body">
+            <div class="day-section">
+              <div class="lunch-row">
+                <span class="lunch-icon">🍷</span>
+                <div><div class="lunch-name-text">Beaune, Burgundy</div><div class="lunch-sub">Lunch stop · 60–90 min stroll</div></div>
+              </div>
+            </div>
+            <div class="day-section">
+              <div class="hotel-row">
+                <span class="hotel-icon">🏨</span>
+                <div><div class="hotel-name-text">Black Bass Hotel</div><div class="hotel-loc">Sévrier, Annecy</div></div>
+                <span class="hotel-dates-badge">25–26 Mar</span>
+              </div>
+            </div>
+            <div class="day-section">
+              <div class="fact-box">ℹ️ Beaune's Hospices de Beaune was founded in 1443. Its polychrome Flemish roof tiles are one of the most photographed sights in Burgundy — still hosting the world's most famous wine auction every November.</div>
+            </div>
+            <div class="day-section">
+              <div class="ds-label ds-label-blue">👁 See — Beaune</div>
+              <div class="rec-chips">
+                <span class="rc rc-blue">Hospices exterior</span>
+                <span class="rc rc-blue">Old town lanes</span>
+                <span class="rc rc-blue">Market square</span>
+              </div>
+            </div>
+            <div class="day-section">
+              <div class="ds-label ds-label-orange">🍽 Eat — Beaune</div>
+              <div class="rec-chips">
+                <span class="rc rc-orange">Burgundy classics</span>
+                <span class="rc rc-orange">Light French lunch</span>
+              </div>
+            </div>
+            <div class="day-section">
+              <div class="ds-label ds-label-blue">👁 See — Annecy</div>
+              <div class="rec-chips">
+                <span class="rc rc-blue">Canals &amp; old town</span>
+                <span class="rc rc-blue">Mountain-framed lake</span>
+              </div>
+            </div>
+            <div class="day-section">
+              <div class="ds-label ds-label-orange">🍽 Eat — Annecy</div>
+              <div class="rec-chips">
+                <span class="rc rc-orange">Alpine-French comfort food</span>
+                <span class="rc rc-orange">Lakeside breakfast next morning</span>
+              </div>
+            </div>
+            <div class="day-section">
+              <div class="pace-note">Alpine transition night. Sévrier is a quieter lakeside village just south of Annecy — short stroll, memorable scenery, early night before the Italian leg.</div>
             </div>
           </div>
-          <div class="info-block">
-            <div class="info-label">Beaune — Do</div>
-            <div class="rec-row">
-              <span class="rec-chip do">One-hour stroll</span>
-              <span class="rec-chip do">Terrace lunch</span>
-            </div>
-          </div>
-          <div class="info-block">
-            <div class="info-label">Beaune — Eat</div>
-            <div class="rec-row">
-              <span class="rec-chip eat">Burgundy classics</span>
-              <span class="rec-chip eat">Light French lunch</span>
-            </div>
-          </div>
-          <div class="info-block">
-            <div class="info-label">Annecy — See</div>
-            <div class="rec-row">
-              <span class="rec-chip see">Canals &amp; old town</span>
-              <span class="rec-chip see">Mountain-framed lake</span>
-            </div>
-          </div>
-          <div class="info-block">
-            <div class="info-label">Annecy — Eat</div>
-            <div class="rec-row">
-              <span class="rec-chip eat">Alpine-French comfort</span>
-              <span class="rec-chip eat">Lakeside breakfast next morning</span>
-            </div>
-          </div>
-          <div class="pace-note">Alpine transition night. Sévrier is a quieter lakeside village just south of Annecy town — short stroll, memorable scenery, early night before Italy.</div>
         </div>
       </div>
-    </article>
+    </div>
 
-    <!-- Day 3 -->
-    <article class="day-card" role="listitem">
-      <div class="day-dot" aria-hidden="true"></div>
-      <div class="day-header" role="button" tabindex="0" aria-expanded="false" aria-controls="d3-body">
-        <span class="day-label">Day 3</span>
-        <span class="day-route">Annecy <span class="day-route-arrow">→</span> Lake Garda</span>
-        <span class="day-meta sans">~4.5–5 hrs &nbsp;· &nbsp;26 Mar</span>
-        <span class="day-chevron" aria-hidden="true">▼</span>
-      </div>
-      <div class="day-body" id="d3-body">
-        <div class="day-body-grid">
-          <div class="info-block">
-            <div class="info-label">Drive</div>
-            <div class="info-value">Approx. 4.5–5 hours</div>
-            <div class="info-sub sans">Over the Alps via Mont Blanc, lunch in Aosta</div>
+    <!-- DAY 3 -->
+    <div class="tl-item">
+      <div class="tl-left"><div class="tl-dot overnight"></div><div class="tl-line"></div></div>
+      <div class="tl-right">
+        <div class="day-card">
+          <div class="day-header">
+            <span class="day-label-badge">Day 3</span>
+            <div class="day-header-mid">
+              <div class="day-route-text">Annecy → Lake Garda</div>
+              <div class="day-drive">~4.5–5 hrs · 26 Mar · via Aosta</div>
+            </div>
+            <span class="day-chevron">▾</span>
           </div>
-          <div class="info-block">
-            <div class="info-label">Lunch stop</div>
-            <div class="info-value">Aosta, Italy</div>
-            <div class="info-sub sans">Natural break after Mont Blanc · flat pedestrian centre</div>
-          </div>
-          <div class="info-block">
-            <div class="info-label">Hotel tonight</div>
-            <div class="info-value">Lefay Resort &amp; Spa Lago di Garda</div>
-            <div class="info-sub sans">Gargnano · 26–31 Mar · Confirmed</div>
-          </div>
-          <div class="fact-box">
-            Aosta has been called the "Rome of the Alps" — a compact Roman city embedded in a medieval mountain town, with an intact amphitheatre, a triumphal arch, and a Roman gate all within a few minutes' walk of each other.
-          </div>
-          <div class="info-block">
-            <div class="info-label">Aosta — See</div>
-            <div class="rec-row">
-              <span class="rec-chip see">Roman gate (Porta Praetoria)</span>
-              <span class="rec-chip see">Medieval streets</span>
-              <span class="rec-chip see">Mountain town setting</span>
+          <div class="day-body">
+            <div class="day-section">
+              <div class="lunch-row">
+                <span class="lunch-icon">🏛</span>
+                <div><div class="lunch-name-text">Aosta, Italy</div><div class="lunch-sub">Lunch stop · Natural break after Mont Blanc</div></div>
+              </div>
+            </div>
+            <div class="day-section">
+              <div class="hotel-row">
+                <span class="hotel-icon">🌿</span>
+                <div><div class="hotel-name-text">Lefay Resort &amp; Spa Lago di Garda</div><div class="hotel-loc">Gargnano, Lake Garda</div></div>
+                <span class="hotel-dates-badge">26–31 Mar</span>
+              </div>
+            </div>
+            <div class="day-section">
+              <div class="fact-box">ℹ️ Aosta has been called the "Rome of the Alps" — a compact Roman city with an intact amphitheatre, a triumphal arch, and a Roman gate all within a few minutes' walk of each other.</div>
+            </div>
+            <div class="day-section">
+              <div class="ds-label ds-label-blue">👁 See — Aosta</div>
+              <div class="rec-chips">
+                <span class="rc rc-blue">Roman gate (Porta Praetoria)</span>
+                <span class="rc rc-blue">Medieval streets</span>
+              </div>
+            </div>
+            <div class="day-section">
+              <div class="ds-label ds-label-green">✦ Do — Aosta</div>
+              <div class="rec-chips">
+                <span class="rc rc-green">Coffee in the centre</span>
+                <span class="rc rc-green">Short Roman-core walk</span>
+              </div>
+            </div>
+            <div class="day-section">
+              <div class="ds-label ds-label-orange">🍽 Eat — Aosta</div>
+              <div class="rec-chips">
+                <span class="rc rc-orange">Alpine pasta</span>
+                <span class="rc rc-orange">Polenta</span>
+                <span class="rc rc-orange">Simple trattoria</span>
+              </div>
+            </div>
+            <div class="day-section">
+              <div class="pace-note">Big driving day. Keep Aosta to 60–90 minutes then continue south. Arrive at Lefay before sunset — the views from the resort are worth it.</div>
             </div>
           </div>
-          <div class="info-block">
-            <div class="info-label">Aosta — Do</div>
-            <div class="rec-row">
-              <span class="rec-chip do">Coffee in the old centre</span>
-              <span class="rec-chip do">Short Roman-core walk</span>
-            </div>
-          </div>
-          <div class="info-block">
-            <div class="info-label">Aosta — Eat</div>
-            <div class="rec-row">
-              <span class="rec-chip eat">Alpine pasta</span>
-              <span class="rec-chip eat">Polenta</span>
-              <span class="rec-chip eat">Simple trattoria lunch</span>
-            </div>
-          </div>
-          <div class="pace-note">Big driving day. Keep Aosta to 60–90 minutes then continue south to the lake. Arrive at Lefay before sunset if possible — the views from the resort are worth it.</div>
         </div>
       </div>
-    </article>
+    </div>
 
-    <!-- Days 4–7 -->
-    <article class="day-card" role="listitem">
-      <div class="day-dot" aria-hidden="true"></div>
-      <div class="day-header" role="button" tabindex="0" aria-expanded="false" aria-controls="d4-body">
-        <span class="day-label">Days 4–7</span>
-        <span class="day-route">Lake Garda stay</span>
-        <span class="day-meta sans">27–30 Mar</span>
-        <span class="day-chevron" aria-hidden="true">▼</span>
-      </div>
-      <div class="day-body" id="d4-body">
-        <div class="day-body-grid">
-          <div class="info-block">
-            <div class="info-label">Base</div>
-            <div class="info-value">Lefay Resort &amp; Spa Lago di Garda</div>
-            <div class="info-sub sans">Gargnano, western shore · 5 nights total</div>
+    <!-- DAYS 4–7 -->
+    <div class="tl-item">
+      <div class="tl-left"><div class="tl-dot overnight" style="width:18px;height:18px;background:var(--green);border-color:var(--green)"></div><div class="tl-line"></div></div>
+      <div class="tl-right">
+        <div class="day-card">
+          <div class="day-header">
+            <span class="day-label-badge" style="background:#E6F4EA;color:#137333">Days 4–7</span>
+            <div class="day-header-mid">
+              <div class="day-route-text">Lake Garda stay</div>
+              <div class="day-drive">27–30 Mar · 5 nights total at Lefay</div>
+            </div>
+            <span class="day-chevron">▾</span>
           </div>
-          <div class="info-block">
-            <div class="info-label">Why it works</div>
-            <div class="info-value">Spa-led sanctuary stop</div>
-            <div class="info-sub sans">Space, views, calm western shore, easy day trips</div>
-          </div>
-          <div class="fact-box">
-            Gargnano's lemon-growing tradition dates back centuries. The historic limonaie — lemon houses with elegant stone columns and wooden roofs — are a unique feature of the western Garda shore, a citrus culture unlike anywhere else in the Alps.
-          </div>
-          <div class="info-block">
-            <div class="info-label">See</div>
-            <div class="rec-row">
-              <span class="rec-chip see">Lake panoramas</span>
-              <span class="rec-chip see">Lemon-house culture</span>
-              <span class="rec-chip see">Western shore towns</span>
-              <span class="rec-chip see">Gardone Riviera</span>
+          <div class="day-body">
+            <div class="day-section">
+              <div class="hotel-row" style="background:#E6F4EA">
+                <span class="hotel-icon">🌿</span>
+                <div><div class="hotel-name-text">Lefay Resort &amp; Spa Lago di Garda</div><div class="hotel-loc">Gargnano · Main base · 5 nights</div></div>
+              </div>
+            </div>
+            <div class="day-section">
+              <div class="fact-box">ℹ️ Gargnano's lemon-growing tradition dates back centuries. The historic limonaie — lemon houses with stone columns and wooden roofs — are unique to the western Garda shore, a citrus culture unlike anywhere else in the Alps.</div>
+            </div>
+            <div class="day-section">
+              <div class="ds-label ds-label-blue">👁 See</div>
+              <div class="rec-chips">
+                <span class="rc rc-blue">Lake panoramas</span>
+                <span class="rc rc-blue">Limonaie (lemon houses)</span>
+                <span class="rc rc-blue">Gardone Riviera</span>
+                <span class="rc rc-blue">Western shore towns</span>
+              </div>
+            </div>
+            <div class="day-section">
+              <div class="ds-label ds-label-green">✦ Do</div>
+              <div class="rec-chips">
+                <span class="rc rc-green">Spa afternoons (pre-book!)</span>
+                <span class="rc rc-green">Limone lunch outing</span>
+                <span class="rc rc-green">Salò promenade</span>
+                <span class="rc rc-green">Sunset terrace evenings</span>
+              </div>
+            </div>
+            <div class="day-section">
+              <div class="ds-label ds-label-orange">🍽 Eat</div>
+              <div class="rec-chips">
+                <span class="rc rc-orange">Lake fish</span>
+                <span class="rc rc-orange">Olive oil-led dishes</span>
+                <span class="rc rc-orange">Pasta</span>
+                <span class="rc rc-orange">Long lunches with a view</span>
+              </div>
+            </div>
+            <div class="day-section">
+              <div class="pace-note">The heart of the trip. No agenda — let the spa, the lake, and good food set the rhythm. Day trips to Salò and Limone are both under 30 min each way.</div>
             </div>
           </div>
-          <div class="info-block">
-            <div class="info-label">Do</div>
-            <div class="rec-row">
-              <span class="rec-chip do">Spa afternoons</span>
-              <span class="rec-chip do">Limone lunch outing</span>
-              <span class="rec-chip do">Salò promenade</span>
-              <span class="rec-chip do">Gardone Riviera drive</span>
-              <span class="rec-chip do">Sunset terrace evenings</span>
-            </div>
-          </div>
-          <div class="info-block">
-            <div class="info-label">Eat</div>
-            <div class="rec-row">
-              <span class="rec-chip eat">Lake fish</span>
-              <span class="rec-chip eat">Olive oil-led dishes</span>
-              <span class="rec-chip eat">Pasta</span>
-              <span class="rec-chip eat">Long lunches with a view</span>
-            </div>
-          </div>
-          <div class="pace-note">The heart of the trip. No agenda — let the spa, the lake, and good food set the rhythm. Pre-book spa treatments in advance. Day trips to Salò and Limone are both under 30 min each way.</div>
         </div>
       </div>
-    </article>
+    </div>
 
-    <!-- Day 8 -->
-    <article class="day-card" role="listitem">
-      <div class="day-dot" aria-hidden="true"></div>
-      <div class="day-header" role="button" tabindex="0" aria-expanded="false" aria-controls="d8-body">
-        <span class="day-label">Day 8</span>
-        <span class="day-route">Lake Garda <span class="day-route-arrow">→</span> Lucerne</span>
-        <span class="day-meta sans">~4.5 hrs &nbsp;· &nbsp;31 Mar</span>
-        <span class="day-chevron" aria-hidden="true">▼</span>
-      </div>
-      <div class="day-body" id="d8-body">
-        <div class="day-body-grid">
-          <div class="info-block">
-            <div class="info-label">Drive</div>
-            <div class="info-value">Approx. 4.5 hours</div>
-            <div class="info-sub sans">Via Ascona (Lake Maggiore) for lunch</div>
+    <!-- DAY 8 -->
+    <div class="tl-item">
+      <div class="tl-left"><div class="tl-dot overnight"></div><div class="tl-line"></div></div>
+      <div class="tl-right">
+        <div class="day-card">
+          <div class="day-header">
+            <span class="day-label-badge">Day 8</span>
+            <div class="day-header-mid">
+              <div class="day-route-text">Lake Garda → Lucerne</div>
+              <div class="day-drive">~4.5 hrs · 31 Mar · via Ascona</div>
+            </div>
+            <span class="day-chevron">▾</span>
           </div>
-          <div class="info-block">
-            <div class="info-label">Lunch stop</div>
-            <div class="info-value">Ascona, Switzerland</div>
-            <div class="info-sub sans">Lake Maggiore old town · café-lined promenade</div>
-          </div>
-          <div class="info-block">
-            <div class="info-label">Hotel tonight</div>
-            <div class="info-value">Boutique Hotel Himmelrich</div>
-            <div class="info-sub sans">Lucerne · 31 Mar–1 Apr · Confirmed</div>
-          </div>
-          <div class="fact-box">
-            Ascona is the southernmost town in Switzerland, with a Mediterranean feel that surprises most visitors — palm trees, a sunny lake promenade, and an old town of narrow lanes all just steps from each other.
-          </div>
-          <div class="info-block">
-            <div class="info-label">Ascona — See</div>
-            <div class="rec-row">
-              <span class="rec-chip see">Lake Maggiore promenade</span>
-              <span class="rec-chip see">Old town lanes</span>
-              <span class="rec-chip see">Waterfront piazza</span>
+          <div class="day-body">
+            <div class="day-section">
+              <div class="lunch-row">
+                <span class="lunch-icon">🌴</span>
+                <div><div class="lunch-name-text">Ascona, Switzerland</div><div class="lunch-sub">Lunch stop · Lake Maggiore promenade</div></div>
+              </div>
+            </div>
+            <div class="day-section">
+              <div class="hotel-row">
+                <span class="hotel-icon">🏨</span>
+                <div><div class="hotel-name-text">Boutique Hotel Himmelrich</div><div class="hotel-loc">Lucerne</div></div>
+                <span class="hotel-dates-badge">31 Mar–1 Apr</span>
+              </div>
+            </div>
+            <div class="day-section">
+              <div class="fact-box">ℹ️ Ascona is Switzerland's southernmost town — with palm trees, a sunny lake promenade, and a Mediterranean feel that surprises most visitors, all just steps from each other.</div>
+            </div>
+            <div class="day-section">
+              <div class="ds-label ds-label-blue">👁 See — Ascona</div>
+              <div class="rec-chips">
+                <span class="rc rc-blue">Lake Maggiore promenade</span>
+                <span class="rc rc-blue">Old town lanes</span>
+                <span class="rc rc-blue">Waterfront piazza</span>
+              </div>
+            </div>
+            <div class="day-section">
+              <div class="ds-label ds-label-orange">🍽 Eat — Ascona</div>
+              <div class="rec-chips">
+                <span class="rc rc-orange">Ticino-style lunch</span>
+                <span class="rc rc-orange">Risotto</span>
+                <span class="rc rc-orange">Fresh pasta</span>
+              </div>
+            </div>
+            <div class="day-section">
+              <div class="ds-label ds-label-blue">👁 See — Lucerne</div>
+              <div class="rec-chips">
+                <span class="rc rc-blue">Chapel Bridge at night</span>
+                <span class="rc rc-blue">Lake Lucerne</span>
+                <span class="rc rc-blue">Old town</span>
+              </div>
+            </div>
+            <div class="day-section">
+              <div class="ds-label ds-label-orange">🍽 Eat — Lucerne</div>
+              <div class="rec-chips">
+                <span class="rc rc-orange">Swiss fondue</span>
+                <span class="rc rc-orange">Rösti</span>
+                <span class="rc rc-orange">Lakeside dinner</span>
+              </div>
+            </div>
+            <div class="day-section">
+              <div class="pace-note">Gentle transition day after the Garda stay. Ascona is a perfect halfway point — Mediterranean atmosphere, easy parking, great lunch.</div>
             </div>
           </div>
-          <div class="info-block">
-            <div class="info-label">Ascona — Do</div>
-            <div class="rec-row">
-              <span class="rec-chip do">Lakefront stroll</span>
-              <span class="rec-chip do">Café lunch with a view</span>
-            </div>
-          </div>
-          <div class="info-block">
-            <div class="info-label">Ascona — Eat</div>
-            <div class="rec-row">
-              <span class="rec-chip eat">Ticino-style lunch</span>
-              <span class="rec-chip eat">Risotto</span>
-              <span class="rec-chip eat">Fresh pasta</span>
-            </div>
-          </div>
-          <div class="info-block">
-            <div class="info-label">Lucerne — See</div>
-            <div class="rec-row">
-              <span class="rec-chip see">Chapel Bridge (Kapellbrücke)</span>
-              <span class="rec-chip see">Lake Lucerne</span>
-              <span class="rec-chip see">Old town cobbles</span>
-            </div>
-          </div>
-          <div class="info-block">
-            <div class="info-label">Lucerne — Eat</div>
-            <div class="rec-row">
-              <span class="rec-chip eat">Swiss fondue</span>
-              <span class="rec-chip eat">Rösti</span>
-              <span class="rec-chip eat">Lakeside dinner</span>
-            </div>
-          </div>
-          <div class="pace-note">Gentle transition day after the Garda stay. Ascona is the perfect halfway point — Mediterranean atmosphere, easy parking, great lunch, then the short final stretch to Lucerne.</div>
         </div>
       </div>
-    </article>
+    </div>
 
-    <!-- Day 9 -->
-    <article class="day-card" role="listitem">
-      <div class="day-dot" aria-hidden="true"></div>
-      <div class="day-header" role="button" tabindex="0" aria-expanded="false" aria-controls="d9-body">
-        <span class="day-label">Day 9</span>
-        <span class="day-route">Lucerne <span class="day-route-arrow">→</span> Domaine de Barive</span>
-        <span class="day-meta sans">~5 hrs &nbsp;· &nbsp;1 Apr</span>
-        <span class="day-chevron" aria-hidden="true">▼</span>
-      </div>
-      <div class="day-body" id="d9-body">
-        <div class="day-body-grid">
-          <div class="info-block">
-            <div class="info-label">Drive</div>
-            <div class="info-value">Approx. 5 hours</div>
-            <div class="info-sub sans">Longest drive of the trip · Colmar lunch break</div>
+    <!-- DAY 9 -->
+    <div class="tl-item">
+      <div class="tl-left"><div class="tl-dot overnight"></div><div class="tl-line"></div></div>
+      <div class="tl-right">
+        <div class="day-card">
+          <div class="day-header">
+            <span class="day-label-badge">Day 9</span>
+            <div class="day-header-mid">
+              <div class="day-route-text">Lucerne → Domaine de Barive</div>
+              <div class="day-drive">~5 hrs · 1 Apr · via Colmar</div>
+            </div>
+            <span class="day-chevron">▾</span>
           </div>
-          <div class="info-block">
-            <div class="info-label">Lunch stop</div>
-            <div class="info-value">Colmar, Alsace</div>
-            <div class="info-sub sans">Alsatian old town · "Little Venice" canals</div>
-          </div>
-          <div class="info-block">
-            <div class="info-label">Hotel tonight</div>
-            <div class="info-value">Domaine de Barive</div>
-            <div class="info-sub sans">Northern France · 1–2 Apr · Confirmed</div>
-          </div>
-          <div class="fact-box">
-            Colmar's old town, Petite Venise (Little Venice), is one of the best-preserved medieval Alsatian centres in France — half-timbered houses in candy colours reflected in canal water, just as they appeared 500 years ago.
-          </div>
-          <div class="info-block">
-            <div class="info-label">Colmar — See</div>
-            <div class="rec-row">
-              <span class="rec-chip see">Petite Venise canals</span>
-              <span class="rec-chip see">Half-timbered old town</span>
-              <span class="rec-chip see">Tanners' Quarter</span>
+          <div class="day-body">
+            <div class="day-section">
+              <div class="lunch-row">
+                <span class="lunch-icon">🏘</span>
+                <div><div class="lunch-name-text">Colmar, Alsace</div><div class="lunch-sub">Lunch stop · Petite Venise canals</div></div>
+              </div>
+            </div>
+            <div class="day-section">
+              <div class="hotel-row">
+                <span class="hotel-icon">🏨</span>
+                <div><div class="hotel-name-text">Domaine de Barive</div><div class="hotel-loc">Northern France</div></div>
+                <span class="hotel-dates-badge">1–2 Apr</span>
+              </div>
+            </div>
+            <div class="day-section">
+              <div class="fact-box">ℹ️ Colmar's Petite Venise (Little Venice) is one of the best-preserved medieval Alsatian centres in France — half-timbered houses in candy colours reflected in canal water, just as they appeared 500 years ago.</div>
+            </div>
+            <div class="day-section">
+              <div class="ds-label ds-label-blue">👁 See — Colmar</div>
+              <div class="rec-chips">
+                <span class="rc rc-blue">Petite Venise canals</span>
+                <span class="rc rc-blue">Tanners' Quarter</span>
+                <span class="rc rc-blue">Half-timbered old town</span>
+              </div>
+            </div>
+            <div class="day-section">
+              <div class="ds-label ds-label-orange">🍽 Eat — Colmar</div>
+              <div class="rec-chips">
+                <span class="rc rc-orange">Flammekueche</span>
+                <span class="rc rc-orange">Choucroute</span>
+                <span class="rc rc-orange">Alsatian winstub</span>
+              </div>
+            </div>
+            <div class="day-section">
+              <div class="pace-note">Longest drive of the trip — break it up well with Colmar. Arrive at Barive in the evening and keep the night relaxed. Tomorrow is just 3 hours home.</div>
             </div>
           </div>
-          <div class="info-block">
-            <div class="info-label">Colmar — Do</div>
-            <div class="rec-row">
-              <span class="rec-chip do">Stroll the canals</span>
-              <span class="rec-chip do">Alsatian lunch</span>
-            </div>
-          </div>
-          <div class="info-block">
-            <div class="info-label">Colmar — Eat</div>
-            <div class="rec-row">
-              <span class="rec-chip eat">Flammekueche (tarte flambée)</span>
-              <span class="rec-chip eat">Choucroute</span>
-              <span class="rec-chip eat">Alsatian winstub</span>
-            </div>
-          </div>
-          <div class="info-block">
-            <div class="info-label">Domaine de Barive — Do</div>
-            <div class="rec-row">
-              <span class="rec-chip do">Estate grounds stroll</span>
-              <span class="rec-chip do">Early dinner</span>
-              <span class="rec-chip do">Quiet final night</span>
-            </div>
-          </div>
-          <div class="pace-note">Longest drive of the trip — break it up well with Colmar. Arrive at Barive in the evening and keep the night relaxed. Tomorrow is just 3 hours home to Calais.</div>
         </div>
       </div>
-    </article>
+    </div>
 
-    <!-- Day 10 -->
-    <article class="day-card" role="listitem">
-      <div class="day-dot" aria-hidden="true"></div>
-      <div class="day-header" role="button" tabindex="0" aria-expanded="false" aria-controls="d10-body">
-        <span class="day-label">Day 10</span>
-        <span class="day-route">Domaine de Barive <span class="day-route-arrow">→</span> Calais</span>
-        <span class="day-meta sans">~3 hrs &nbsp;· &nbsp;2 Apr</span>
-        <span class="day-chevron" aria-hidden="true">▼</span>
-      </div>
-      <div class="day-body" id="d10-body">
-        <div class="day-body-grid">
-          <div class="info-block">
-            <div class="info-label">Drive</div>
-            <div class="info-value">Approx. 3 hours</div>
-            <div class="info-sub sans">Short final leg, take it easy</div>
+    <!-- DAY 10 -->
+    <div class="tl-item">
+      <div class="tl-left"><div class="tl-dot home"></div></div>
+      <div class="tl-right">
+        <div class="day-card">
+          <div class="day-header">
+            <span class="day-label-badge" style="background:var(--green-bg);color:var(--green)">Day 10</span>
+            <div class="day-header-mid">
+              <div class="day-route-text">Domaine de Barive → Calais</div>
+              <div class="day-drive">~3 hrs · 2 Apr · Final drive</div>
+            </div>
+            <span class="day-chevron">▾</span>
           </div>
-          <div class="info-block">
-            <div class="info-label">Crossing</div>
-            <div class="info-value">Calais → UK</div>
-            <div class="info-sub sans">Eurostar or ferry depending on booking</div>
-          </div>
-          <div class="fact-box">
-            A gentle final morning. Leave when ready, stop for a coffee when you feel like it, and arrive back knowing you've done something genuinely beautiful together before a big new chapter begins.
-          </div>
-          <div class="info-block">
-            <div class="info-label">Do</div>
-            <div class="rec-row">
-              <span class="rec-chip do">Relaxed breakfast at the Domaine</span>
-              <span class="rec-chip do">Late departure</span>
-              <span class="rec-chip do">Optional coffee stop en route</span>
+          <div class="day-body">
+            <div class="day-section">
+              <div class="fact-box" style="background:var(--green-bg);border-color:var(--green);color:#137333">✨ A gentle final morning. Leave when ready, stop for a coffee along the way, and arrive knowing you've done something genuinely beautiful together before a big new chapter begins.</div>
+            </div>
+            <div class="day-section">
+              <div class="ds-label ds-label-green">✦ Do</div>
+              <div class="rec-chips">
+                <span class="rc rc-green">Relaxed breakfast at Barive</span>
+                <span class="rc rc-green">Late departure</span>
+                <span class="rc rc-green">Optional coffee stop en route</span>
+              </div>
+            </div>
+            <div class="day-section">
+              <div class="pace-note">No rush today. The trip is done. Arrive in Calais with plenty of time to spare before your crossing.</div>
             </div>
           </div>
-          <div class="pace-note">No rush today. The trip is done — keep Day 10 entirely relaxed. Arrive in Calais with time to spare before your crossing.</div>
         </div>
       </div>
-    </article>
+    </div>
 
   </div><!-- /timeline -->
 </section>
 
-<!-- ════════════════════ ROUTE TAB ════════════════════ -->
-<section id="tab-route" class="tab-view" role="tabpanel" aria-label="Route overview">
-
-  <div class="section-header">
-    <h2 class="section-title">Route Overview</h2>
-    <div class="section-line"></div>
-  </div>
-
-  <div class="route-section">
-    <h3>Calais &nbsp;→&nbsp; Champagne &nbsp;→&nbsp; Burgundy &nbsp;→&nbsp; Alps &nbsp;→&nbsp; Garda &nbsp;→&nbsp; Ticino &nbsp;→&nbsp; Lucerne &nbsp;→&nbsp; Alsace &nbsp;→&nbsp; Calais</h3>
-
+<!-- ══════════ ROUTE ══════════ -->
+<section id="tab-route" class="tab-view" role="tabpanel">
+  <div class="section-hdr"><h2>Route overview</h2><div class="section-hdr-line"></div></div>
+  <div class="route-card">
+    <h3>Calais → Champagne → Alps → Garda → Ticino → Lucerne → Alsace → Calais</h3>
     <div class="route-svg-wrap">
-      <svg viewBox="0 0 800 520" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Schematic route map showing the trip journey">
-
-        <!-- Background -->
-        <rect width="800" height="520" fill="#181c27" rx="16"/>
-
-        <!-- Grid lines (subtle) -->
-        <line x1="0" y1="130" x2="800" y2="130" stroke="#2a3047" stroke-width=".5" stroke-dasharray="4 6"/>
-        <line x1="0" y1="260" x2="800" y2="260" stroke="#2a3047" stroke-width=".5" stroke-dasharray="4 6"/>
-        <line x1="0" y1="390" x2="800" y2="390" stroke="#2a3047" stroke-width=".5" stroke-dasharray="4 6"/>
-
-        <!-- Route path -->
-        <path d="M 80 80 C 160 80, 200 140, 250 150
-                 C 310 162, 380 280, 420 340
-                 C 460 400, 500 420, 560 400
-                 C 610 383, 650 340, 660 300
-                 C 672 255, 620 200, 580 170
-                 C 548 145, 500 135, 480 100
-                 C 460 65, 430 42, 390 38
-                 C 350 34, 300 50, 260 60"
-              stroke="url(#routeGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
-              stroke-dasharray="8 4" opacity=".35"/>
-
-        <!-- Main solid route -->
-        <path d="M 80 80 L 250 150 L 420 340 L 560 400 L 660 300 L 580 170 L 480 100"
-              stroke="url(#routeGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity=".6"/>
-
-        <!-- Gradient def -->
-        <defs>
-          <linearGradient id="routeGrad" x1="80" y1="80" x2="480" y2="400" gradientUnits="userSpaceOnUse">
-            <stop offset="0%"   stop-color="#c9a84c"/>
-            <stop offset="40%"  stop-color="#5b8fa8"/>
-            <stop offset="80%"  stop-color="#7a9e7e"/>
-            <stop offset="100%" stop-color="#c9a84c"/>
-          </linearGradient>
-        </defs>
-
-        <!-- ── STOPS ── -->
-
+      <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" aria-label="Schematic route map">
+        <rect width="800" height="500" fill="#F8F9FA" rx="12"/>
+        <!-- Grid -->
+        <line x1="0" y1="125" x2="800" y2="125" stroke="#DADCE0" stroke-width="1" stroke-dasharray="4 6"/>
+        <line x1="0" y1="250" x2="800" y2="250" stroke="#DADCE0" stroke-width="1" stroke-dasharray="4 6"/>
+        <line x1="0" y1="375" x2="800" y2="375" stroke="#DADCE0" stroke-width="1" stroke-dasharray="4 6"/>
+        <!-- Route line -->
+        <polyline points="70,75 230,145 400,330 545,390 645,290 560,162 490,95" fill="none" stroke="#1A73E8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+        <!-- Lunch stop connectors (dashed) -->
+        <line x1="315" y1="240" x2="230" y2="145" stroke="#FA7B17" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.6"/>
+        <line x1="315" y1="240" x2="400" y2="330" stroke="#FA7B17" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.6"/>
+        <line x1="470" y1="363" x2="400" y2="330" stroke="#FA7B17" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.6"/>
+        <line x1="470" y1="363" x2="545" y2="390" stroke="#FA7B17" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.6"/>
+        <line x1="603" y1="225" x2="645" y2="290" stroke="#FA7B17" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.6"/>
+        <line x1="603" y1="225" x2="560" y2="162" stroke="#FA7B17" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.6"/>
+        <!-- Return arrow -->
+        <path d="M490,95 Q430,60 300,68 Q170,76 100,75" fill="none" stroke="#1A73E8" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.3"/>
+        <!-- OVERNIGHT STOPS -->
         <!-- Calais -->
-        <circle cx="80"  cy="80"  r="8" fill="#c9a84c" stroke="#0f1117" stroke-width="2"/>
-        <text x="96"  y="77"  fill="#e8e4dc" font-size="13" font-family="Georgia, serif">Calais</text>
-        <text x="96"  y="91"  fill="#8a8fa8" font-size="9"  font-family="sans-serif">Day 1 start · Day 10 end</text>
-
+        <circle cx="70" cy="75" r="10" fill="#1A73E8"/>
+        <text x="70" y="79" text-anchor="middle" fill="white" font-size="10" font-weight="700" font-family="Roboto,sans-serif">C</text>
+        <text x="86" y="72" fill="#202124" font-size="12" font-weight="500" font-family="Roboto,sans-serif">Calais</text>
+        <text x="86" y="85" fill="#5F6368" font-size="9" font-family="Roboto,sans-serif">Start/End</text>
         <!-- Mutigny -->
-        <circle cx="250" cy="150" r="8" fill="#c9a84c" stroke="#0f1117" stroke-width="2"/>
-        <text x="266" y="147" fill="#e8e4dc" font-size="13" font-family="Georgia, serif">Mutigny</text>
-        <text x="266" y="161" fill="#8a8fa8" font-size="9"  font-family="sans-serif">Night 1 · LOISIUM Hotel</text>
-
-        <!-- Beaune (lunch stop) -->
-        <circle cx="335" cy="248" r="6" fill="#5b8fa8" stroke="#0f1117" stroke-width="2" stroke-dasharray="3 2"/>
-        <text x="348" y="245" fill="#7fb3cc" font-size="11" font-family="sans-serif">Beaune</text>
-        <text x="348" y="258" fill="#8a8fa8" font-size="9"  font-family="sans-serif">Lunch stop</text>
-
+        <circle cx="230" cy="145" r="10" fill="#1A73E8"/>
+        <text x="230" y="149" text-anchor="middle" fill="white" font-size="10" font-weight="700" font-family="Roboto,sans-serif">M</text>
+        <text x="246" y="142" fill="#202124" font-size="12" font-weight="500" font-family="Roboto,sans-serif">Mutigny</text>
+        <text x="246" y="155" fill="#5F6368" font-size="9" font-family="Roboto,sans-serif">Night 1 · LOISIUM Hotel</text>
         <!-- Annecy -->
-        <circle cx="420" cy="340" r="8" fill="#c9a84c" stroke="#0f1117" stroke-width="2"/>
-        <text x="436" y="337" fill="#e8e4dc" font-size="13" font-family="Georgia, serif">Annecy</text>
-        <text x="436" y="351" fill="#8a8fa8" font-size="9"  font-family="sans-serif">Night 2 · Black Bass Hotel</text>
-
-        <!-- Aosta (lunch stop) -->
-        <circle cx="492" cy="380" r="6" fill="#5b8fa8" stroke="#0f1117" stroke-width="2" stroke-dasharray="3 2"/>
-        <text x="458" y="405" fill="#7fb3cc" font-size="11" font-family="sans-serif">Aosta</text>
-        <text x="458" y="417" fill="#8a8fa8" font-size="9"  font-family="sans-serif">Lunch stop</text>
-
+        <circle cx="400" cy="330" r="10" fill="#1A73E8"/>
+        <text x="400" y="334" text-anchor="middle" fill="white" font-size="10" font-weight="700" font-family="Roboto,sans-serif">A</text>
+        <text x="416" y="327" fill="#202124" font-size="12" font-weight="500" font-family="Roboto,sans-serif">Annecy</text>
+        <text x="416" y="340" fill="#5F6368" font-size="9" font-family="Roboto,sans-serif">Night 2 · Black Bass Hotel</text>
         <!-- Lake Garda -->
-        <circle cx="560" cy="400" r="10" fill="#7a9e7e" stroke="#0f1117" stroke-width="2"/>
-        <text x="576" y="397" fill="#e8e4dc" font-size="13" font-family="Georgia, serif">Lake Garda</text>
-        <text x="576" y="411" fill="#8a8fa8" font-size="9"  font-family="sans-serif">5 nights · Lefay Resort &amp; Spa</text>
-
-        <!-- Ascona (lunch stop) -->
-        <circle cx="617" cy="353" r="6" fill="#5b8fa8" stroke="#0f1117" stroke-width="2" stroke-dasharray="3 2"/>
-        <text x="630" y="350" fill="#7fb3cc" font-size="11" font-family="sans-serif">Ascona</text>
-        <text x="630" y="363" fill="#8a8fa8" font-size="9"  font-family="sans-serif">Lunch stop</text>
-
+        <circle cx="545" cy="390" r="13" fill="#34A853"/>
+        <text x="545" y="395" text-anchor="middle" fill="white" font-size="10" font-weight="700" font-family="Roboto,sans-serif">G</text>
+        <text x="562" y="387" fill="#202124" font-size="12" font-weight="500" font-family="Roboto,sans-serif">Lake Garda</text>
+        <text x="562" y="400" fill="#5F6368" font-size="9" font-family="Roboto,sans-serif">5 nights · Lefay Resort &amp; Spa</text>
         <!-- Lucerne -->
-        <circle cx="660" cy="300" r="8" fill="#c9a84c" stroke="#0f1117" stroke-width="2"/>
-        <text x="676" y="297" fill="#e8e4dc" font-size="13" font-family="Georgia, serif">Lucerne</text>
-        <text x="676" y="311" fill="#8a8fa8" font-size="9"  font-family="sans-serif">Night 8 · Himmelrich</text>
-
-        <!-- Colmar (lunch stop) -->
-        <circle cx="622" cy="232" r="6" fill="#5b8fa8" stroke="#0f1117" stroke-width="2" stroke-dasharray="3 2"/>
-        <text x="635" y="229" fill="#7fb3cc" font-size="11" font-family="sans-serif">Colmar</text>
-        <text x="635" y="242" fill="#8a8fa8" font-size="9"  font-family="sans-serif">Lunch stop</text>
-
-        <!-- Domaine de Barive -->
-        <circle cx="580" cy="170" r="8" fill="#c9a84c" stroke="#0f1117" stroke-width="2"/>
-        <text x="596" y="167" fill="#e8e4dc" font-size="13" font-family="Georgia, serif">Barive</text>
-        <text x="596" y="181" fill="#8a8fa8" font-size="9"  font-family="sans-serif">Night 9 · Domaine de Barive</text>
-
+        <circle cx="645" cy="290" r="10" fill="#1A73E8"/>
+        <text x="645" y="294" text-anchor="middle" fill="white" font-size="10" font-weight="700" font-family="Roboto,sans-serif">L</text>
+        <text x="661" y="287" fill="#202124" font-size="12" font-weight="500" font-family="Roboto,sans-serif">Lucerne</text>
+        <text x="661" y="300" fill="#5F6368" font-size="9" font-family="Roboto,sans-serif">Night 8 · Himmelrich</text>
+        <!-- Barive -->
+        <circle cx="560" cy="162" r="10" fill="#1A73E8"/>
+        <text x="560" y="166" text-anchor="middle" fill="white" font-size="9" font-weight="700" font-family="Roboto,sans-serif">B</text>
+        <text x="576" y="159" fill="#202124" font-size="12" font-weight="500" font-family="Roboto,sans-serif">Barive</text>
+        <text x="576" y="172" fill="#5F6368" font-size="9" font-family="Roboto,sans-serif">Night 9 · Domaine de Barive</text>
+        <!-- LUNCH STOPS -->
+        <!-- Beaune -->
+        <rect x="307" y="230" width="16" height="16" rx="3" fill="#FA7B17" transform="rotate(45 315 238)"/>
+        <text x="328" y="237" fill="#202124" font-size="11" font-weight="500" font-family="Roboto,sans-serif">Beaune</text>
+        <text x="328" y="249" fill="#FA7B17" font-size="9" font-family="Roboto,sans-serif">Lunch stop</text>
+        <!-- Aosta -->
+        <rect x="462" y="355" width="16" height="16" rx="3" fill="#FA7B17" transform="rotate(45 470 363)"/>
+        <text x="432" y="380" fill="#202124" font-size="11" font-weight="500" font-family="Roboto,sans-serif">Aosta</text>
+        <text x="432" y="392" fill="#FA7B17" font-size="9" font-family="Roboto,sans-serif">Lunch stop</text>
+        <!-- Ascona -->
+        <rect x="595" y="217" width="16" height="16" rx="3" fill="#FA7B17" transform="rotate(45 603 225)"/>
+        <text x="616" y="222" fill="#202124" font-size="11" font-weight="500" font-family="Roboto,sans-serif">Ascona</text>
+        <text x="616" y="234" fill="#FA7B17" font-size="9" font-family="Roboto,sans-serif">Lunch stop</text>
+        <!-- Colmar -->
+        <rect x="490" y="112" width="16" height="16" rx="3" fill="#FA7B17" transform="rotate(45 498 120)"/>
+        <text x="470" y="108" fill="#202124" font-size="11" font-weight="500" font-family="Roboto,sans-serif">Colmar</text>
+        <text x="470" y="120" fill="#FA7B17" font-size="9" font-family="Roboto,sans-serif">Lunch stop</text>
+        <!-- Drive time labels -->
+        <text x="145" y="100" fill="#5F6368" font-size="9" font-family="Roboto,sans-serif" text-anchor="middle">~3 hrs</text>
+        <text x="330" y="255" fill="#5F6368" font-size="9" font-family="Roboto,sans-serif" text-anchor="middle">~4.5 hrs</text>
+        <text x="485" y="375" fill="#5F6368" font-size="9" font-family="Roboto,sans-serif" text-anchor="middle">~5 hrs</text>
+        <text x="615" y="355" fill="#5F6368" font-size="9" font-family="Roboto,sans-serif" text-anchor="middle">~4.5 hrs</text>
+        <text x="620" y="218" fill="#5F6368" font-size="9" font-family="Roboto,sans-serif" text-anchor="middle">~5 hrs</text>
+        <text x="530" y="122" fill="#5F6368" font-size="9" font-family="Roboto,sans-serif" text-anchor="middle">~3 hrs</text>
         <!-- Legend -->
-        <circle cx="38" cy="460" r="7" fill="#c9a84c" stroke="#0f1117" stroke-width="2"/>
-        <text x="52" y="465" fill="#e8e4dc" font-size="10" font-family="sans-serif">Overnight stop</text>
-        <circle cx="160" cy="460" r="6" fill="#5b8fa8" stroke="#0f1117" stroke-width="2" stroke-dasharray="3 2"/>
-        <text x="174" y="465" fill="#e8e4dc" font-size="10" font-family="sans-serif">Lunch stop</text>
-        <circle cx="275" cy="460" r="9" fill="#7a9e7e" stroke="#0f1117" stroke-width="2"/>
-        <text x="292" y="465" fill="#e8e4dc" font-size="10" font-family="sans-serif">Main base (5 nights)</text>
-
-        <!-- Direction arrows (simplified) -->
-        <text x="156" y="115" fill="#c9a84c" font-size="14" opacity=".6">→</text>
-        <text x="336" y="258" fill="#5b8fa8" font-size="14" opacity=".5">↓</text>
-        <text x="542" y="378" fill="#7a9e7e" font-size="14" opacity=".5">↗</text>
-        <text x="668" y="258" fill="#c9a84c" font-size="14" opacity=".6">↑</text>
+        <circle cx="30" cy="455" r="8" fill="#1A73E8"/>
+        <text x="44" y="459" fill="#5F6368" font-size="10" font-family="Roboto,sans-serif">Overnight stop</text>
+        <circle cx="155" cy="455" r="10" fill="#34A853"/>
+        <text x="171" y="459" fill="#5F6368" font-size="10" font-family="Roboto,sans-serif">Main base (5 nights)</text>
+        <rect x="290" y="447" width="12" height="12" rx="2" fill="#FA7B17" transform="rotate(45 296 453)"/>
+        <text x="308" y="459" fill="#5F6368" font-size="10" font-family="Roboto,sans-serif">Lunch stop</text>
       </svg>
     </div>
-
-    <p style="text-align:center; font-family: sans-serif; font-size: .72rem; color: var(--muted); margin-top: 1rem;">
-      Schematic route — not to geographic scale. Solid path = driving days · Dashed circles = lunch stops
-    </p>
+    <p style="text-align:center;font-size:11px;color:var(--text3);margin-top:12px">Schematic — not to geographic scale</p>
   </div>
-
 </section>
 
-<!-- ════════════════════ EAT SEE DO TAB ════════════════════ -->
-<section id="tab-esd" class="tab-view" role="tabpanel" aria-label="Eat, See and Do">
-
-  <div class="section-header">
-    <h2 class="section-title">Eat, See &amp; Do</h2>
-    <div class="section-line"></div>
-  </div>
-
+<!-- ══════════ EAT, SEE & DO ══════════ -->
+<section id="tab-esd" class="tab-view" role="tabpanel">
+  <div class="section-hdr"><h2>Eat, See &amp; Do</h2><div class="section-hdr-line"></div></div>
   <div class="esd-grid">
 
     <div class="esd-card">
-      <div class="esd-place">Night 1 — Champagne</div>
-      <div class="esd-name">Mutigny</div>
-      <div class="esd-group">
-        <div class="esd-group-label see">See</div>
-        <ul class="esd-list"><li>Vineyard slopes &amp; Marne Valley panorama</li><li>Sunset viewpoint from the village</li></ul>
-      </div>
-      <div class="esd-group">
-        <div class="esd-group-label do">Do</div>
-        <ul class="esd-list"><li>Hotel spa at LOISIUM</li><li>Short sunset stroll through the vines</li></ul>
-      </div>
-      <div class="esd-group">
-        <div class="esd-group-label eat">Eat</div>
-        <ul class="esd-list"><li>Regional French bistro food</li><li>Light first-night meal at the hotel</li><li>View-facing table if weather allows</li></ul>
-      </div>
+      <div class="esd-header"><div class="esd-stop-type">Night 1 · Champagne</div><div class="esd-place-name">Mutigny</div></div>
+      <div class="esd-section"><div class="esd-sec-label ds-label-blue">👁 See</div><ul class="esd-list"><li>Vineyard slopes &amp; Marne Valley panorama</li><li>Sunset viewpoint from the village</li></ul></div>
+      <div class="esd-section"><div class="esd-sec-label ds-label-green">✦ Do</div><ul class="esd-list"><li>Hotel spa at LOISIUM</li><li>Short sunset stroll through the vines</li></ul></div>
+      <div class="esd-section"><div class="esd-sec-label ds-label-orange">🍽 Eat</div><ul class="esd-list"><li>Regional French bistro food</li><li>Light first-night meal at the hotel</li><li>View-facing table if weather allows</li></ul></div>
     </div>
 
     <div class="esd-card">
-      <div class="esd-place">Lunch stop — Burgundy</div>
-      <div class="esd-name">Beaune</div>
-      <div class="esd-group">
-        <div class="esd-group-label see">See</div>
-        <ul class="esd-list"><li>Hospices de Beaune exterior</li><li>Old town lanes and squares</li></ul>
-      </div>
-      <div class="esd-group">
-        <div class="esd-group-label do">Do</div>
-        <ul class="esd-list"><li>One-hour stroll through the centre</li><li>Terrace lunch in a square</li></ul>
-      </div>
-      <div class="esd-group">
-        <div class="esd-group-label eat">Eat</div>
-        <ul class="esd-list"><li>Burgundy classics (boeuf bourguignon, escargots)</li><li>Lighter French lunch option</li><li>One glass for the non-driver, if desired</li></ul>
-      </div>
+      <div class="esd-header"><div class="esd-stop-type">Lunch stop · Burgundy</div><div class="esd-place-name">Beaune</div></div>
+      <div class="esd-section"><div class="esd-sec-label ds-label-blue">👁 See</div><ul class="esd-list"><li>Hospices de Beaune exterior</li><li>Old town lanes and squares</li></ul></div>
+      <div class="esd-section"><div class="esd-sec-label ds-label-green">✦ Do</div><ul class="esd-list"><li>One-hour stroll through the centre</li><li>Terrace lunch in a square</li></ul></div>
+      <div class="esd-section"><div class="esd-sec-label ds-label-orange">🍽 Eat</div><ul class="esd-list"><li>Burgundy classics (boeuf bourguignon)</li><li>Lighter French lunch option</li></ul></div>
     </div>
 
     <div class="esd-card">
-      <div class="esd-place">Night 2 — Alps</div>
-      <div class="esd-name">Annecy &amp; Sévrier</div>
-      <div class="esd-group">
-        <div class="esd-group-label see">See</div>
-        <ul class="esd-list"><li>Canals and old town of Annecy</li><li>Mountain-framed lake from Sévrier</li></ul>
-      </div>
-      <div class="esd-group">
-        <div class="esd-group-label do">Do</div>
-        <ul class="esd-list"><li>Short lakefront walk in Sévrier</li><li>Optional quick visit to Annecy old town (15 min drive)</li></ul>
-      </div>
-      <div class="esd-group">
-        <div class="esd-group-label eat">Eat</div>
-        <ul class="esd-list"><li>Alpine-French comfort food (raclette, fondue)</li><li>Lakeside breakfast next morning</li></ul>
-      </div>
+      <div class="esd-header"><div class="esd-stop-type">Night 2 · Alps</div><div class="esd-place-name">Annecy &amp; Sévrier</div></div>
+      <div class="esd-section"><div class="esd-sec-label ds-label-blue">👁 See</div><ul class="esd-list"><li>Canals and old town of Annecy</li><li>Mountain-framed lake from Sévrier</li></ul></div>
+      <div class="esd-section"><div class="esd-sec-label ds-label-green">✦ Do</div><ul class="esd-list"><li>Short lakefront walk in Sévrier</li><li>Optional quick visit to Annecy old town</li></ul></div>
+      <div class="esd-section"><div class="esd-sec-label ds-label-orange">🍽 Eat</div><ul class="esd-list"><li>Alpine-French comfort food</li><li>Lakeside breakfast next morning</li></ul></div>
     </div>
 
     <div class="esd-card">
-      <div class="esd-place">Lunch stop — Aosta Valley</div>
-      <div class="esd-name">Aosta</div>
-      <div class="esd-group">
-        <div class="esd-group-label see">See</div>
-        <ul class="esd-list"><li>Roman gate (Porta Praetoria)</li><li>Medieval streets of the old centre</li></ul>
-      </div>
-      <div class="esd-group">
-        <div class="esd-group-label do">Do</div>
-        <ul class="esd-list"><li>Coffee in the pedestrianised centre</li><li>Short Roman-core walk (flat)</li></ul>
-      </div>
-      <div class="esd-group">
-        <div class="esd-group-label eat">Eat</div>
-        <ul class="esd-list"><li>Alpine pasta (tagliatelle al ragù)</li><li>Polenta and local charcuterie</li><li>Simple trattoria lunch</li></ul>
-      </div>
+      <div class="esd-header"><div class="esd-stop-type">Lunch stop · Aosta Valley</div><div class="esd-place-name">Aosta</div></div>
+      <div class="esd-section"><div class="esd-sec-label ds-label-blue">👁 See</div><ul class="esd-list"><li>Roman gate (Porta Praetoria)</li><li>Medieval streets of the old centre</li></ul></div>
+      <div class="esd-section"><div class="esd-sec-label ds-label-green">✦ Do</div><ul class="esd-list"><li>Coffee in the pedestrianised centre</li><li>Short Roman-core walk (flat)</li></ul></div>
+      <div class="esd-section"><div class="esd-sec-label ds-label-orange">🍽 Eat</div><ul class="esd-list"><li>Alpine pasta</li><li>Polenta and local charcuterie</li><li>Simple trattoria lunch</li></ul></div>
     </div>
 
     <div class="esd-card">
-      <div class="esd-place">Nights 3–7 — Italian Lakes</div>
-      <div class="esd-name">Lake Garda (Gargnano)</div>
-      <div class="esd-group">
-        <div class="esd-group-label see">See</div>
-        <ul class="esd-list"><li>Lake panoramas from the Lefay terrace</li><li>Limonaie (historic lemon houses)</li><li>Gardone Riviera &amp; Vittoriale gardens</li><li>Salò promenade</li><li>Limone sul Garda old town</li></ul>
-      </div>
-      <div class="esd-group">
-        <div class="esd-group-label do">Do</div>
-        <ul class="esd-list"><li>Spa afternoons (pre-book treatments)</li><li>Day trip to Limone (30 min drive)</li><li>Evening stroll in Salò</li><li>Sunset terrace at the resort</li></ul>
-      </div>
-      <div class="esd-group">
-        <div class="esd-group-label eat">Eat</div>
-        <ul class="esd-list"><li>Lake fish (lavarello, trota)</li><li>Olive oil-led dishes</li><li>Long pasta lunches with a view</li><li>Risotto al lago</li></ul>
-      </div>
+      <div class="esd-header"><div class="esd-stop-type">Nights 3–7 · Italian Lakes</div><div class="esd-place-name">Lake Garda (Gargnano)</div></div>
+      <div class="esd-section"><div class="esd-sec-label ds-label-blue">👁 See</div><ul class="esd-list"><li>Lake panoramas from the Lefay terrace</li><li>Limonaie (historic lemon houses)</li><li>Gardone Riviera &amp; Vittoriale gardens</li><li>Salò promenade · Limone sul Garda</li></ul></div>
+      <div class="esd-section"><div class="esd-sec-label ds-label-green">✦ Do</div><ul class="esd-list"><li>Spa afternoons (pre-book treatments)</li><li>Day trip to Limone (30 min drive)</li><li>Evening stroll in Salò</li></ul></div>
+      <div class="esd-section"><div class="esd-sec-label ds-label-orange">🍽 Eat</div><ul class="esd-list"><li>Lake fish (lavarello, trota)</li><li>Olive oil-led dishes</li><li>Long pasta lunches with a view</li></ul></div>
     </div>
 
     <div class="esd-card">
-      <div class="esd-place">Lunch stop — Ticino</div>
-      <div class="esd-name">Ascona</div>
-      <div class="esd-group">
-        <div class="esd-group-label see">See</div>
-        <ul class="esd-list"><li>Lake Maggiore waterfront promenade</li><li>Old town lanes</li><li>Waterfront piazza</li></ul>
-      </div>
-      <div class="esd-group">
-        <div class="esd-group-label do">Do</div>
-        <ul class="esd-list"><li>Lakefront stroll</li><li>Café lunch at a promenade table</li></ul>
-      </div>
-      <div class="esd-group">
-        <div class="esd-group-label eat">Eat</div>
-        <ul class="esd-list"><li>Ticino-style lunch (Grotto-style)</li><li>Risotto con funghi</li><li>Fresh pasta</li></ul>
-      </div>
+      <div class="esd-header"><div class="esd-stop-type">Lunch stop · Ticino</div><div class="esd-place-name">Ascona</div></div>
+      <div class="esd-section"><div class="esd-sec-label ds-label-blue">👁 See</div><ul class="esd-list"><li>Lake Maggiore waterfront promenade</li><li>Old town lanes and waterfront piazza</li></ul></div>
+      <div class="esd-section"><div class="esd-sec-label ds-label-green">✦ Do</div><ul class="esd-list"><li>Lakefront stroll</li><li>Café lunch at a promenade table</li></ul></div>
+      <div class="esd-section"><div class="esd-sec-label ds-label-orange">🍽 Eat</div><ul class="esd-list"><li>Ticino-style Grotto lunch</li><li>Risotto con funghi · Fresh pasta</li></ul></div>
     </div>
 
     <div class="esd-card">
-      <div class="esd-place">Night 8 — Central Switzerland</div>
-      <div class="esd-name">Lucerne</div>
-      <div class="esd-group">
-        <div class="esd-group-label see">See</div>
-        <ul class="esd-list"><li>Chapel Bridge (Kapellbrücke) at night</li><li>Lake Lucerne waterfront</li><li>Old town and painted facades</li></ul>
-      </div>
-      <div class="esd-group">
-        <div class="esd-group-label do">Do</div>
-        <ul class="esd-list"><li>Evening walk across the bridge</li><li>Lakefront stroll before dinner</li></ul>
-      </div>
-      <div class="esd-group">
-        <div class="esd-group-label eat">Eat</div>
-        <ul class="esd-list"><li>Swiss fondue or raclette</li><li>Rösti with cheese</li><li>Lakeside dinner at a terrace restaurant</li></ul>
-      </div>
+      <div class="esd-header"><div class="esd-stop-type">Night 8 · Central Switzerland</div><div class="esd-place-name">Lucerne</div></div>
+      <div class="esd-section"><div class="esd-sec-label ds-label-blue">👁 See</div><ul class="esd-list"><li>Chapel Bridge (Kapellbrücke)</li><li>Lake Lucerne waterfront</li><li>Old town painted facades</li></ul></div>
+      <div class="esd-section"><div class="esd-sec-label ds-label-green">✦ Do</div><ul class="esd-list"><li>Evening walk across the bridge</li><li>Lakefront stroll before dinner</li></ul></div>
+      <div class="esd-section"><div class="esd-sec-label ds-label-orange">🍽 Eat</div><ul class="esd-list"><li>Swiss fondue or raclette</li><li>Rösti with cheese</li><li>Lakeside dinner</li></ul></div>
     </div>
 
     <div class="esd-card">
-      <div class="esd-place">Lunch stop — Alsace</div>
-      <div class="esd-name">Colmar</div>
-      <div class="esd-group">
-        <div class="esd-group-label see">See</div>
-        <ul class="esd-list"><li>Petite Venise (Little Venice canals)</li><li>Half-timbered Tanners' Quarter</li><li>Colourful old town facades</li></ul>
-      </div>
-      <div class="esd-group">
-        <div class="esd-group-label do">Do</div>
-        <ul class="esd-list"><li>Stroll the canal banks</li><li>Alsatian lunch in a winstub</li></ul>
-      </div>
-      <div class="esd-group">
-        <div class="esd-group-label eat">Eat</div>
-        <ul class="esd-list"><li>Flammekueche (tarte flambée)</li><li>Choucroute garnie</li><li>Baeckeoffe (if available)</li></ul>
-      </div>
+      <div class="esd-header"><div class="esd-stop-type">Lunch stop · Alsace</div><div class="esd-place-name">Colmar</div></div>
+      <div class="esd-section"><div class="esd-sec-label ds-label-blue">👁 See</div><ul class="esd-list"><li>Petite Venise (Little Venice canals)</li><li>Half-timbered Tanners' Quarter</li></ul></div>
+      <div class="esd-section"><div class="esd-sec-label ds-label-green">✦ Do</div><ul class="esd-list"><li>Stroll the canal banks</li><li>Alsatian lunch in a winstub</li></ul></div>
+      <div class="esd-section"><div class="esd-sec-label ds-label-orange">🍽 Eat</div><ul class="esd-list"><li>Flammekueche (tarte flambée)</li><li>Choucroute garnie</li></ul></div>
     </div>
 
     <div class="esd-card">
-      <div class="esd-place">Night 9 — Northern France</div>
-      <div class="esd-name">Domaine de Barive</div>
-      <div class="esd-group">
-        <div class="esd-group-label see">See</div>
-        <ul class="esd-list"><li>Estate grounds and gardens</li><li>French countryside</li></ul>
-      </div>
-      <div class="esd-group">
-        <div class="esd-group-label do">Do</div>
-        <ul class="esd-list"><li>Grounds stroll at dusk</li><li>Quiet final evening together</li></ul>
-      </div>
-      <div class="esd-group">
-        <div class="esd-group-label eat">Eat</div>
-        <ul class="esd-list"><li>Estate restaurant dinner</li><li>Classic French country cooking</li></ul>
-      </div>
+      <div class="esd-header"><div class="esd-stop-type">Night 9 · Northern France</div><div class="esd-place-name">Domaine de Barive</div></div>
+      <div class="esd-section"><div class="esd-sec-label ds-label-blue">👁 See</div><ul class="esd-list"><li>Estate grounds and gardens</li><li>French countryside at dusk</li></ul></div>
+      <div class="esd-section"><div class="esd-sec-label ds-label-green">✦ Do</div><ul class="esd-list"><li>Grounds stroll</li><li>Quiet final evening together</li></ul></div>
+      <div class="esd-section"><div class="esd-sec-label ds-label-orange">🍽 Eat</div><ul class="esd-list"><li>Estate restaurant dinner</li><li>Classic French country cooking</li></ul></div>
     </div>
 
   </div>
 </section>
 
-<!-- ════════════════════ HOTELS TAB ════════════════════ -->
-<section id="tab-hotels" class="tab-view" role="tabpanel" aria-label="Hotels">
-
-  <div class="section-header">
-    <h2 class="section-title">Confirmed Hotels</h2>
-    <div class="section-line"></div>
+<!-- ══════════ HOTELS ══════════ -->
+<section id="tab-hotels" class="tab-view" role="tabpanel">
+  <div class="section-hdr"><h2>Confirmed hotels</h2><div class="section-hdr-line"></div></div>
+  <div class="hotels-list">
+    <div class="hotel-item">
+      <div class="hotel-icon-wrap">🍾</div>
+      <div class="hotel-item-main">
+        <div class="hotel-item-name">LOISIUM Wine &amp; Spa Hotel Champagne</div>
+        <div class="hotel-item-loc">📍 Mutigny, Champagne · France</div>
+      </div>
+      <div class="hotel-item-right">
+        <span class="hotel-nights">1 night</span>
+        <span class="hotel-dates-text">24–25 Mar</span>
+        <span class="hotel-confirmed">✓ Confirmed</span>
+      </div>
+    </div>
+    <div class="hotel-item">
+      <div class="hotel-icon-wrap">🏔</div>
+      <div class="hotel-item-main">
+        <div class="hotel-item-name">Black Bass Hotel</div>
+        <div class="hotel-item-loc">📍 Sévrier, Annecy · France</div>
+      </div>
+      <div class="hotel-item-right">
+        <span class="hotel-nights">1 night</span>
+        <span class="hotel-dates-text">25–26 Mar</span>
+        <span class="hotel-confirmed">✓ Confirmed</span>
+      </div>
+    </div>
+    <div class="hotel-item main-base" style="border-left:3px solid var(--green)">
+      <div class="hotel-icon-wrap" style="background:var(--green-bg)">🌿</div>
+      <div class="hotel-item-main">
+        <div class="hotel-item-name">Lefay Resort &amp; Spa Lago di Garda</div>
+        <div class="hotel-item-loc">📍 Gargnano, Lake Garda · Italy</div>
+      </div>
+      <div class="hotel-item-right">
+        <span class="hotel-nights" style="background:var(--green-bg);color:var(--green)">5 nights ★</span>
+        <span class="hotel-dates-text">26–31 Mar</span>
+        <span class="hotel-confirmed">✓ Confirmed</span>
+      </div>
+    </div>
+    <div class="hotel-item">
+      <div class="hotel-icon-wrap">🏙</div>
+      <div class="hotel-item-main">
+        <div class="hotel-item-name">Boutique Hotel Himmelrich</div>
+        <div class="hotel-item-loc">📍 Lucerne · Switzerland</div>
+      </div>
+      <div class="hotel-item-right">
+        <span class="hotel-nights">1 night</span>
+        <span class="hotel-dates-text">31 Mar–1 Apr</span>
+        <span class="hotel-confirmed">✓ Confirmed</span>
+      </div>
+    </div>
+    <div class="hotel-item">
+      <div class="hotel-icon-wrap">🌾</div>
+      <div class="hotel-item-main">
+        <div class="hotel-item-name">Domaine de Barive</div>
+        <div class="hotel-item-loc">📍 Northern France</div>
+      </div>
+      <div class="hotel-item-right">
+        <span class="hotel-nights">1 night</span>
+        <span class="hotel-dates-text">1–2 Apr</span>
+        <span class="hotel-confirmed">✓ Confirmed</span>
+      </div>
+    </div>
   </div>
-
-  <div class="hotels-grid">
-    <div class="hotel-card">
-      <div class="hotel-name">LOISIUM Wine &amp; Spa Hotel</div>
-      <div class="hotel-location">Mutigny, Champagne · France</div>
-      <div class="hotel-dates">24–25 Mar <span class="nights">1 night</span></div>
-      <div class="hotel-confirmed">✓ Confirmed</div>
-    </div>
-    <div class="hotel-card">
-      <div class="hotel-name">Black Bass Hotel</div>
-      <div class="hotel-location">Sévrier, Annecy · France</div>
-      <div class="hotel-dates">25–26 Mar <span class="nights">1 night</span></div>
-      <div class="hotel-confirmed">✓ Confirmed</div>
-    </div>
-    <div class="hotel-card" style="border-left-color: var(--sage);">
-      <div class="hotel-name">Lefay Resort &amp; Spa Lago di Garda</div>
-      <div class="hotel-location">Gargnano, Lake Garda · Italy</div>
-      <div class="hotel-dates">26–31 Mar <span class="nights" style="background:rgba(122,158,126,.15);border-color:rgba(122,158,126,.3);color:var(--sage-light)">5 nights</span></div>
-      <div class="hotel-confirmed">✓ Confirmed</div>
-    </div>
-    <div class="hotel-card">
-      <div class="hotel-name">Boutique Hotel Himmelrich</div>
-      <div class="hotel-location">Lucerne · Switzerland</div>
-      <div class="hotel-dates">31 Mar–1 Apr <span class="nights">1 night</span></div>
-      <div class="hotel-confirmed">✓ Confirmed</div>
-    </div>
-    <div class="hotel-card">
-      <div class="hotel-name">Domaine de Barive</div>
-      <div class="hotel-location">Northern France</div>
-      <div class="hotel-dates">1–2 Apr <span class="nights">1 night</span></div>
-      <div class="hotel-confirmed">✓ Confirmed</div>
-    </div>
-  </div>
-
 </section>
 
-<!-- ════════════════════ NOTES TAB ════════════════════ -->
-<section id="tab-notes" class="tab-view" role="tabpanel" aria-label="Practical notes">
-
-  <div class="section-header">
-    <h2 class="section-title">Practical Notes</h2>
-    <div class="section-line"></div>
+<!-- ══════════ NOTES ══════════ -->
+<section id="tab-notes" class="tab-view" role="tabpanel">
+  <div class="section-hdr"><h2>Practical notes</h2><div class="section-hdr-line"></div></div>
+  <div class="notes-list">
+    <div class="note-item"><div class="note-icon-wrap">🗺</div><div class="note-item-main"><div class="note-item-title">Lunch stop approach</div><div class="note-item-text">Park once, stroll, lunch, continue. Keep each stop to 60–90 minutes to stay comfortable and arrive at hotels by early evening.</div></div></div>
+    <div class="note-item"><div class="note-icon-wrap">🌿</div><div class="note-item-main"><div class="note-item-title">Pace guidance</div><div class="note-item-text">This trip is designed for a calm, pregnancy-friendly pace. No back-to-back sightseeing. Prioritise comfort, good food, and scenery over ticking boxes.</div></div></div>
+    <div class="note-item"><div class="note-icon-wrap">💆</div><div class="note-item-main"><div class="note-item-title">Lefay spa — pre-book</div><div class="note-item-text">Pre-book spa treatments at Lefay Resort in advance. The wellness facilities are the centrepiece of the Lake Garda stay — book at time of hotel confirmation.</div></div></div>
+    <div class="note-item"><div class="note-icon-wrap">🍋</div><div class="note-item-main"><div class="note-item-title">Garda day trips</div><div class="note-item-text">Limone sul Garda and Salò are both under 30 minutes from Gargnano. Neither requires more than a short stroll and a long lunch. Keep effort low.</div></div></div>
+    <div class="note-item"><div class="note-icon-wrap">🚗</div><div class="note-item-main"><div class="note-item-title">Driving philosophy</div><div class="note-item-text">All legs are 3–5 hours including stops. Never push through — leave time to enjoy the scenery. The Mont Blanc tunnel on Day 3 is the scenic highlight of the drive.</div></div></div>
+    <div class="note-item"><div class="note-icon-wrap">🌙</div><div class="note-item-main"><div class="note-item-title">Final day — no rush</div><div class="note-item-text">Day 10 is only 3 hours, Barive to Calais. Leave when ready, stop for coffee if you want, arrive with time to spare before the crossing.</div></div></div>
+    <div class="note-item"><div class="note-icon-wrap">🥂</div><div class="note-item-main"><div class="note-item-title">Food philosophy</div><div class="note-item-text">Prioritise one long, wonderful meal per day. All four lunch stops — Beaune, Aosta, Ascona, Colmar — are genuinely excellent choices.</div></div></div>
+    <div class="note-item"><div class="note-icon-wrap">📱</div><div class="note-item-main"><div class="note-item-title">Using this page</div><div class="note-item-text">Works offline once loaded. Tap any day card to expand details. Use the tabs at the top (desktop) or bottom (mobile) to switch views.</div></div></div>
   </div>
-
-  <div class="notes-grid">
-    <div class="note-card">
-      <div class="note-icon">🗺</div>
-      <div class="note-title">Lunch stop approach</div>
-      <div class="note-text">Park once, stroll, lunch, continue. Keep each lunch stop to 60–90 minutes to stay comfortable and arrive at hotels by early evening.</div>
-    </div>
-    <div class="note-card">
-      <div class="note-icon">🌿</div>
-      <div class="note-title">Pace guidance</div>
-      <div class="note-text">This trip is designed for a calm, pregnancy-friendly pace. No back-to-back sightseeing. Prioritise comfort, good food, and scenery over ticking boxes.</div>
-    </div>
-    <div class="note-card">
-      <div class="note-icon">💆‍♀️</div>
-      <div class="note-title">Lefay spa bookings</div>
-      <div class="note-text">Pre-book spa treatments at Lefay Resort in advance — the wellness facilities are the centrepiece of the Lake Garda stay. Book at time of hotel confirmation if possible.</div>
-    </div>
-    <div class="note-card">
-      <div class="note-icon">🍋</div>
-      <div class="note-title">Garda day trips</div>
-      <div class="note-text">Limone sul Garda and Salò are both under 30 minutes from Gargnano. Neither requires more than a short stroll and a long lunch. Keep effort low.</div>
-    </div>
-    <div class="note-card">
-      <div class="note-icon">🛣</div>
-      <div class="note-title">Driving style</div>
-      <div class="note-text">All driving legs are 3–5 hours including stops. Never push through — leave time to enjoy the scenery and stop if tired. Mont Blanc tunnel on Day 3 is the scenic highlight.</div>
-    </div>
-    <div class="note-card">
-      <div class="note-icon">🌙</div>
-      <div class="note-title">Final day</div>
-      <div class="note-text">Keep Day 10 completely relaxed. Barive to Calais is only 3 hours. Leave when ready, stop for coffee if you want, arrive with time to spare before the crossing.</div>
-    </div>
-    <div class="note-card">
-      <div class="note-icon">🥂</div>
-      <div class="note-title">Food philosophy</div>
-      <div class="note-text">Prioritise one long, wonderful meal per day over snacking. Lunch stops have been chosen for quality — Beaune, Aosta, Ascona, and Colmar are all genuinely excellent.</div>
-    </div>
-    <div class="note-card">
-      <div class="note-icon">📱</div>
-      <div class="note-title">Using this page</div>
-      <div class="note-text">Works offline once loaded. Tap any day card to open the details. Use the tabs above to switch between Itinerary, Route map, Eat/See/Do, Hotels and Notes views.</div>
-    </div>
-  </div>
-
 </section>
 
 </main>
 
-<footer>
-  <p>Babymoon Journey Planner &nbsp;·&nbsp; March–April 2025 &nbsp;·&nbsp; Crafted with care for a very special trip.</p>
-</footer>
+<!-- BOTTOM NAV (mobile only) -->
+<nav class="bottom-nav" role="navigation">
+  <button class="bnav-btn active" data-tab="itinerary"><span class="icon">☰</span><span>Itinerary</span><span class="bnav-indicator"></span></button>
+  <button class="bnav-btn" data-tab="route"><span class="icon">🗺</span><span>Route</span><span class="bnav-indicator"></span></button>
+  <button class="bnav-btn" data-tab="esd"><span class="icon">✨</span><span>Eat &amp; Do</span><span class="bnav-indicator"></span></button>
+  <button class="bnav-btn" data-tab="hotels"><span class="icon">🏨</span><span>Hotels</span><span class="bnav-indicator"></span></button>
+  <button class="bnav-btn" data-tab="notes"><span class="icon">ℹ</span><span>Notes</span><span class="bnav-indicator"></span></button>
+</nav>
 
 <script>
-  // ── Tab switching ────────────────────────────────────────────────
-  const tabBtns  = document.querySelectorAll('.nav-tabs button');
-  const tabViews = document.querySelectorAll('.tab-view');
-
-  tabBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const target = btn.dataset.tab;
-
-      tabBtns.forEach(b => {
-        b.classList.remove('active');
-        b.setAttribute('aria-selected', 'false');
-      });
-      btn.classList.add('active');
-      btn.setAttribute('aria-selected', 'true');
-
-      tabViews.forEach(v => v.classList.remove('active'));
-      const targetView = document.getElementById('tab-' + target);
-      if (targetView) targetView.classList.add('active');
-
-      // Scroll to top of content
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+  // Tab switching
+  function switchTab(id) {
+    document.querySelectorAll('.tab-view').forEach(v => v.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    document.querySelectorAll('.bnav-btn,.dtab').forEach(b => {
+      b.classList.toggle('active', b.dataset.tab === id);
+      if (b.getAttribute('aria-selected') !== null) b.setAttribute('aria-selected', b.dataset.tab === id);
     });
-  });
-
-  // ── Accordion / day cards ────────────────────────────────────────
-  document.querySelectorAll('.day-header').forEach(header => {
-    const card = header.parentElement;
-
-    function toggle() {
-      const isOpen = card.classList.contains('open');
-      card.classList.toggle('open', !isOpen);
-      header.setAttribute('aria-expanded', String(!isOpen));
-    }
-
-    header.addEventListener('click', toggle);
-
-    // Keyboard support
-    header.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        toggle();
-      }
-    });
-  });
-
-  // Open first card by default
-  const firstCard = document.querySelector('.day-card');
-  if (firstCard) {
-    firstCard.classList.add('open');
-    const firstHeader = firstCard.querySelector('.day-header');
-    if (firstHeader) firstHeader.setAttribute('aria-expanded', 'true');
+    window.scrollTo({top:0,behavior:'smooth'});
   }
-</script>
+  document.querySelectorAll('.bnav-btn,.dtab').forEach(btn => {
+    btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+  });
 
+  // Accordion
+  document.querySelectorAll('.day-header').forEach(h => {
+    h.addEventListener('click', () => {
+      const card = h.parentElement;
+      card.classList.toggle('open');
+    });
+  });
+</script>
 </body>
 </html>
