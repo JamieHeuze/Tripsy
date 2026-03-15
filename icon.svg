@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="96" fill="#1A73E8"/>
+  <!-- Road/route path -->
+  <path d="M256 100 C200 160 160 220 160 310 C160 390 200 420 256 420 C312 420 352 390 352 310 C352 220 312 160 256 100Z"
+        fill="none" stroke="white" stroke-width="28" stroke-linecap="round"/>
+  <!-- Destination dot -->
+  <circle cx="256" cy="412" r="22" fill="white"/>
+  <!-- Start dot -->
+  <circle cx="256" cy="108" r="16" fill="white" opacity="0.7"/>
+  <!-- Midpoint chevron -->
+  <path d="M222 260 L256 228 L290 260" fill="none" stroke="white" stroke-width="22"
+        stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
