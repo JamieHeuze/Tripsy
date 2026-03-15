@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="robots" content="noindex, nofollow, nosnippet" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; manifest-src 'self'; worker-src 'self'; base-uri 'none'; form-action 'none'" />
+  <meta name="referrer" content="no-referrer" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Babymoon Journey · Planner</title>
   <link rel="manifest" href="./manifest.json" />
@@ -10,8 +13,6 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Babymoon" />
   <link rel="apple-touch-icon" href="./icon.svg" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     :root{
@@ -26,7 +27,7 @@
       --r:8px;--r-lg:16px;--r-pill:24px;
     }
     html{scroll-behavior:smooth}
-    body{font-family:'Roboto',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;min-height:100vh}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;min-height:100vh}
 
     /* ── Top bar ── */
     .topbar{
@@ -53,7 +54,7 @@
       }
       .dtab{
         padding:0 20px;height:48px;border:none;background:none;cursor:pointer;
-        font-family:'Roboto',sans-serif;font-size:13px;font-weight:500;
+        font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:13px;font-weight:500;
         color:var(--text2);letter-spacing:.01em;text-transform:uppercase;
         border-bottom:3px solid transparent;transition:color .2s,border-color .2s;
         display:flex;align-items:center;gap:6px;
@@ -74,7 +75,7 @@
     .bnav-btn{
       flex:1;padding:8px 4px 10px;border:none;background:none;cursor:pointer;
       display:flex;flex-direction:column;align-items:center;gap:3px;
-      font-family:'Roboto',sans-serif;font-size:10px;font-weight:500;
+      font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:10px;font-weight:500;
       color:var(--text3);letter-spacing:.03em;transition:color .15s;
     }
     .bnav-btn .icon{font-size:20px;line-height:1}
@@ -364,7 +365,7 @@
     .hbtn{
       flex:1;display:inline-flex;align-items:center;justify-content:center;gap:5px;
       padding:8px 10px;border-radius:var(--r-pill);
-      font-size:12px;font-weight:500;font-family:'Roboto',sans-serif;
+      font-size:12px;font-weight:500;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
       border:1.5px solid;cursor:pointer;text-decoration:none;
       transition:background .15s;
     }
@@ -450,7 +451,7 @@
       padding:8px 24px;border-radius:var(--r-pill);
       border:1.5px solid var(--border);background:var(--card);
       font-size:12px;color:var(--text2);cursor:pointer;
-      font-family:'Roboto',sans-serif;transition:background .15s;
+      font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;transition:background .15s;
     }
     .checklist-reset-btn:hover{background:var(--bg)}
     .emergency-card{
@@ -482,6 +483,21 @@
     .hospital-name{font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px}
     .hospital-sub{font-size:11px;color:var(--text2);margin-bottom:2px}
     .hospital-tel{font-size:12px;color:var(--blue);font-weight:500}
+
+    /* ── Image placeholders (no external img deps) ── */
+    .place-thumb{
+      background:linear-gradient(135deg,var(--blue-bg) 0%,var(--border) 100%);
+      flex-shrink:0;display:flex;align-items:center;justify-content:center;
+    }
+    .place-card-img.place-thumb{
+      width:64px;height:64px;border-radius:var(--r);
+    }
+    .hotel-feat-img.place-thumb,.hotel-hero.place-thumb{
+      width:100%;height:160px;border-radius:var(--r) var(--r) 0 0;
+    }
+    .hotel-card-img.place-thumb,.place-img.place-thumb{
+      width:100%;aspect-ratio:4/3;border-radius:var(--r) var(--r) 0 0;
+    }
   </style>
 </head>
 <body>
@@ -1122,21 +1138,21 @@
       <div class="esd-header"><div class="esd-stop-type">Night 1 · Champagne</div><div class="esd-place-name">Mutigny</div></div>
       <div class="rec-list">
         <div class="rec-item">
-          <img class="rec-img" src="https://loremflickr.com/300/300/spa,pool?lock=1" alt="LOISIUM Spa" loading="lazy">
+          <div class="rec-img place-thumb" role="img" aria-label="LOISIUM Spa"></div>
           <div class="rec-body">
             <div class="rec-name">🛁 LOISIUM Wine &amp; Spa</div>
             <div class="rec-desc">Award-winning wine-themed spa with pregnancy-safe treatments and an indoor pool. Your first evening — arrive, unwind, and reset after the Channel crossing.</div>
           </div>
         </div>
         <div class="rec-item">
-          <img class="rec-img" src="https://loremflickr.com/300/300/vineyard,sunset?lock=2" alt="Vineyard sunset walk" loading="lazy">
+          <div class="rec-img place-thumb" role="img" aria-label="Vineyard sunset walk"></div>
           <div class="rec-body">
             <div class="rec-name">🌅 Sunset Vineyard Walk</div>
             <div class="rec-desc">Stroll the UNESCO-listed Champagne hillside vines as the sun sets over the Marne Valley. One of the most quietly spectacular views in northern France.</div>
           </div>
         </div>
         <div class="rec-item">
-          <img class="rec-img" src="https://loremflickr.com/300/300/wine,cellar?lock=3" alt="Champagne cellar" loading="lazy">
+          <div class="rec-img place-thumb" role="img" aria-label="Champagne cellar"></div>
           <div class="rec-body">
             <div class="rec-name">🥂 Champagne Cellar Visit</div>
             <div class="rec-desc">The chalk cellars of Épernay are a 20-minute drive away. Fascinating UNESCO-listed tunnels where the world's finest bubbles are made — still a great visit without drinking.</div>
@@ -1150,21 +1166,21 @@
       <div class="esd-header"><div class="esd-stop-type">Lunch stop · Burgundy</div><div class="esd-place-name">Beaune</div></div>
       <div class="rec-list">
         <div class="rec-item">
-          <img class="rec-img" src="https://loremflickr.com/300/300/burgundy,medieval?lock=4" alt="Hospices de Beaune" loading="lazy">
+          <div class="rec-img place-thumb" role="img" aria-label="Hospices de Beaune"></div>
           <div class="rec-body">
             <div class="rec-name">🏛 Hospices de Beaune</div>
             <div class="rec-desc">A stunning 15th-century Gothic almshouse with an iconic multicoloured tiled roof. One of the most photographed buildings in France — unmissable even from the outside.</div>
           </div>
         </div>
         <div class="rec-item">
-          <img class="rec-img" src="https://loremflickr.com/300/300/medieval,town?lock=5" alt="Beaune old town" loading="lazy">
+          <div class="rec-img place-thumb" role="img" aria-label="Beaune old town"></div>
           <div class="rec-body">
             <div class="rec-name">🚶 Old Town Stroll</div>
             <div class="rec-desc">A compact, flat medieval centre — cobblestone lanes, wine shops and pretty squares. A perfect 60-minute wander to stretch your legs mid-journey.</div>
           </div>
         </div>
         <div class="rec-item">
-          <img class="rec-img" src="https://loremflickr.com/300/300/french,food?lock=6" alt="Burgundy lunch" loading="lazy">
+          <div class="rec-img place-thumb" role="img" aria-label="Burgundy lunch"></div>
           <div class="rec-body">
             <div class="rec-name">🍷 Terrace Bistro Lunch</div>
             <div class="rec-desc">Sit on a sunny square terrace and order boeuf bourguignon or Burgundy escargots. This is one of France's great food towns — make the most of it.</div>
@@ -1178,21 +1194,21 @@
       <div class="esd-header"><div class="esd-stop-type">Night 2 · Alps</div><div class="esd-place-name">Annecy &amp; Sévrier</div></div>
       <div class="rec-list">
         <div class="rec-item">
-          <img class="rec-img" src="https://loremflickr.com/300/300/canal,village?lock=7" alt="Annecy old town canals" loading="lazy">
+          <div class="rec-img place-thumb" role="img" aria-label="Annecy old town canals"></div>
           <div class="rec-body">
             <div class="rec-name">🏘 Annecy Old Town Canals</div>
             <div class="rec-desc">Known as the Venice of the Alps — pastel-coloured houses over crystal-clear turquoise canals. A magical evening stroll through one of France's most beautiful towns.</div>
           </div>
         </div>
         <div class="rec-item">
-          <img class="rec-img" src="https://loremflickr.com/300/300/lake,alps?lock=8" alt="Lake Annecy" loading="lazy">
+          <div class="rec-img place-thumb" role="img" aria-label="Lake Annecy"></div>
           <div class="rec-body">
             <div class="rec-name">🏔 Lake Annecy Lakefront</div>
             <div class="rec-desc">Europe's cleanest lake, framed by snow-capped Alps. A gentle flat lakefront path from Sévrier is perfect for a slow morning walk before the big Alpine drive.</div>
           </div>
         </div>
         <div class="rec-item">
-          <img class="rec-img" src="https://loremflickr.com/300/300/fondue,swiss?lock=9" alt="Alpine dinner" loading="lazy">
+          <div class="rec-img place-thumb" role="img" aria-label="Alpine dinner"></div>
           <div class="rec-body">
             <div class="rec-name">🧀 Alpine Dinner</div>
             <div class="rec-desc">Tartiflette (potatoes, reblochon cheese, lardons) or a hearty fondue in an Annecy restaurant. True Alpine comfort food at its best.</div>
@@ -1206,21 +1222,21 @@
       <div class="esd-header"><div class="esd-stop-type">Lunch stop · Aosta Valley</div><div class="esd-place-name">Aosta</div></div>
       <div class="rec-list">
         <div class="rec-item">
-          <img class="rec-img" src="https://loremflickr.com/300/300/roman,arch?lock=10" alt="Porta Praetoria" loading="lazy">
+          <div class="rec-img place-thumb" role="img" aria-label="Porta Praetoria"></div>
           <div class="rec-body">
             <div class="rec-name">🏛 Porta Praetoria</div>
             <div class="rec-desc">A remarkably preserved Roman triumphal arch from 25 BC, standing in the middle of town. It takes seconds to reach from the car park — genuinely impressive up close.</div>
           </div>
         </div>
         <div class="rec-item">
-          <img class="rec-img" src="https://loremflickr.com/300/300/italian,pasta?lock=11" alt="Aosta trattoria" loading="lazy">
+          <div class="rec-img place-thumb" role="img" aria-label="Aosta trattoria"></div>
           <div class="rec-body">
             <div class="rec-name">🍝 Valdostana Trattoria</div>
             <div class="rec-desc">Local specialities include polenta concia (with cheese and butter), fontina fonduta and locally cured meats. A simple trattoria lunch here is genuinely excellent.</div>
           </div>
         </div>
         <div class="rec-item">
-          <img class="rec-img" src="https://loremflickr.com/300/300/roman,theatre?lock=12" alt="Roman Theatre Aosta" loading="lazy">
+          <div class="rec-img place-thumb" role="img" aria-label="Roman Theatre Aosta"></div>
           <div class="rec-body">
             <div class="rec-name">🎭 Roman Theatre</div>
             <div class="rec-desc">An impressive outdoor amphitheatre with an intact facade still standing 20m high. Viewable for free from the street — a striking photo stop after lunch.</div>
@@ -1234,21 +1250,21 @@
       <div class="esd-header"><div class="esd-stop-type">Nights 3–7 · Italian Lakes</div><div class="esd-place-name">Lake Garda (Gargnano)</div></div>
       <div class="rec-list">
         <div class="rec-item">
-          <img class="rec-img" src="https://loremflickr.com/300/300/spa,infinity?lock=13" alt="Lefay Resort spa" loading="lazy">
+          <div class="rec-img place-thumb" role="img" aria-label="Lefay Resort spa"></div>
           <div class="rec-body">
             <div class="rec-name">♾ Lefay Resort Spa</div>
             <div class="rec-desc">One of Italy's top destination spas — infinity pools over the lake, pregnancy treatments, and a philosophy built around slow restoration. Pre-book at least one afternoon.</div>
           </div>
         </div>
         <div class="rec-item">
-          <img class="rec-img" src="https://loremflickr.com/300/300/lake,village?lock=14" alt="Limone sul Garda" loading="lazy">
+          <div class="rec-img place-thumb" role="img" aria-label="Limone sul Garda"></div>
           <div class="rec-body">
             <div class="rec-name">🍋 Limone sul Garda</div>
             <div class="rec-desc">A picturesque lemon-growing village perched on the lake's western shore, 30 minutes north. Colourful houses, historic limonaie terraces and stunning lake views.</div>
           </div>
         </div>
         <div class="rec-item">
-          <img class="rec-img" src="https://loremflickr.com/300/300/lake,food?lock=15" alt="Garda lake fish dinner" loading="lazy">
+          <div class="rec-img place-thumb" role="img" aria-label="Garda lake fish dinner"></div>
           <div class="rec-body">
             <div class="rec-name">🐟 Lake Fish Dinner</div>
             <div class="rec-desc">Freshwater lavarello or trota served grilled with olive oil from local groves. Order a long terrace lunch or sunset dinner with the lake filling the view.</div>
@@ -1262,21 +1278,21 @@
       <div class="esd-header"><div class="esd-stop-type">Lunch stop · Ticino</div><div class="esd-place-name">Ascona</div></div>
       <div class="rec-list">
         <div class="rec-item">
-          <img class="rec-img" src="https://loremflickr.com/300/300/lake,promenade?lock=16" alt="Ascona lakefront" loading="lazy">
+          <div class="rec-img place-thumb" role="img" aria-label="Ascona lakefront"></div>
           <div class="rec-body">
             <div class="rec-name">🌴 Waterfront Promenade</div>
             <div class="rec-desc">An elegant lakefront boulevard lined with palm trees, pastel buildings and café terraces. Ascona is one of Switzerland's most charming surprises — genuinely Mediterranean in feel.</div>
           </div>
         </div>
         <div class="rec-item">
-          <img class="rec-img" src="https://loremflickr.com/300/300/stone,restaurant?lock=17" alt="Ticino Grotto lunch" loading="lazy">
+          <div class="rec-img place-thumb" role="img" aria-label="Ticino Grotto lunch"></div>
           <div class="rec-body">
             <div class="rec-name">🪨 Grotto Lunch</div>
             <div class="rec-desc">A traditional Swiss-Italian grotto is a stone-terrace restaurant under a granite cliff — relaxed, rustic and delicious. Order risotto con funghi or house-made pasta.</div>
           </div>
         </div>
         <div class="rec-item">
-          <img class="rec-img" src="https://loremflickr.com/300/300/lake,island?lock=18" alt="Brissago islands" loading="lazy">
+          <div class="rec-img place-thumb" role="img" aria-label="Brissago islands"></div>
           <div class="rec-body">
             <div class="rec-name">🏝 Isole di Brissago</div>
             <div class="rec-desc">Two small botanical islands visible just offshore, reachable by a short boat from the piazza. The gardens are spectacular — a lovely optional add-on if time allows.</div>
@@ -1290,21 +1306,21 @@
       <div class="esd-header"><div class="esd-stop-type">Night 8 · Central Switzerland</div><div class="esd-place-name">Lucerne</div></div>
       <div class="rec-list">
         <div class="rec-item">
-          <img class="rec-img" src="https://loremflickr.com/300/300/bridge,medieval?lock=19" alt="Kapellbrücke bridge" loading="lazy">
+          <div class="rec-img place-thumb" role="img" aria-label="Kapellbrücke bridge"></div>
           <div class="rec-body">
             <div class="rec-name">🌉 Kapellbrücke</div>
             <div class="rec-desc">Europe's oldest covered wooden bridge, built in 1333 and decorated with 17th-century painted panels inside. Walk across it at dusk when the old town lights reflect on the Reuss.</div>
           </div>
         </div>
         <div class="rec-item">
-          <img class="rec-img" src="https://loremflickr.com/300/300/lake,mountain?lock=20" alt="Lake Lucerne" loading="lazy">
+          <div class="rec-img place-thumb" role="img" aria-label="Lake Lucerne"></div>
           <div class="rec-body">
             <div class="rec-name">⛰ Lake Lucerne Waterfront</div>
             <div class="rec-desc">A flat, beautiful lakeside promenade with mountain panoramas on all sides. Perfect for a slow pre-dinner stroll — one of Europe's finest city-lake settings.</div>
           </div>
         </div>
         <div class="rec-item">
-          <img class="rec-img" src="https://loremflickr.com/300/300/fondue,cheese?lock=21" alt="Swiss fondue dinner" loading="lazy">
+          <div class="rec-img place-thumb" role="img" aria-label="Swiss fondue dinner"></div>
           <div class="rec-body">
             <div class="rec-name">🧀 Swiss Fondue Dinner</div>
             <div class="rec-desc">Sharing a fondue or raclette in an old-town Lucerne restaurant is a quintessential Swiss experience. Warm, convivial and ideal for a romantic evening.</div>
@@ -1318,21 +1334,21 @@
       <div class="esd-header"><div class="esd-stop-type">Lunch stop · Alsace</div><div class="esd-place-name">Colmar</div></div>
       <div class="rec-list">
         <div class="rec-item">
-          <img class="rec-img" src="https://loremflickr.com/300/300/canal,france?lock=22" alt="Petite Venise Colmar" loading="lazy">
+          <div class="rec-img place-thumb" role="img" aria-label="Petite Venise Colmar"></div>
           <div class="rec-body">
             <div class="rec-name">🛶 Petite Venise</div>
             <div class="rec-desc">Colmar's canal district — pastel half-timbered houses reflected in the water, window boxes full of flowers. One of France's most photogenic corners, perfect for a 30-minute wander.</div>
           </div>
         </div>
         <div class="rec-item">
-          <img class="rec-img" src="https://loremflickr.com/300/300/pizza,france?lock=23" alt="Flammekueche" loading="lazy">
+          <div class="rec-img place-thumb" role="img" aria-label="Flammekueche"></div>
           <div class="rec-body">
             <div class="rec-name">🫓 Flammekueche Lunch</div>
             <div class="rec-desc">Alsace's signature dish — a wafer-thin flatbread topped with crème fraîche, onions and lardons. Eat it in a traditional winstub (Alsatian tavern) on a cobblestone lane.</div>
           </div>
         </div>
         <div class="rec-item">
-          <img class="rec-img" src="https://loremflickr.com/300/300/medieval,street?lock=24" alt="Tanners Quarter Colmar" loading="lazy">
+          <div class="rec-img place-thumb" role="img" aria-label="Tanners Quarter Colmar"></div>
           <div class="rec-body">
             <div class="rec-name">🏠 Tanners' Quarter</div>
             <div class="rec-desc">The historic tannery district with the most striking medieval facades in town. Five minutes from Petite Venise — a short loop through here makes the stroll complete.</div>
@@ -1346,21 +1362,21 @@
       <div class="esd-header"><div class="esd-stop-type">Night 9 · Northern France</div><div class="esd-place-name">Domaine de Barive</div></div>
       <div class="rec-list">
         <div class="rec-item">
-          <img class="rec-img" src="https://loremflickr.com/300/300/garden,manor?lock=25" alt="Domaine de Barive grounds" loading="lazy">
+          <div class="rec-img place-thumb" role="img" aria-label="Domaine de Barive grounds"></div>
           <div class="rec-body">
             <div class="rec-name">🌿 Estate Grounds Walk</div>
             <div class="rec-desc">Wander the peaceful manor gardens and parkland at dusk. After 9 days on the road, there's something special about a quiet French countryside evening with nowhere to be.</div>
           </div>
         </div>
         <div class="rec-item">
-          <img class="rec-img" src="https://loremflickr.com/300/300/dinner,restaurant?lock=26" alt="Estate restaurant dinner" loading="lazy">
+          <div class="rec-img place-thumb" role="img" aria-label="Estate restaurant dinner"></div>
           <div class="rec-body">
             <div class="rec-name">🕯 Estate Restaurant Dinner</div>
             <div class="rec-desc">Classic French country cooking in an intimate manor house dining room. Your last proper dinner of the trip — make it a long, unhurried one.</div>
           </div>
         </div>
         <div class="rec-item">
-          <img class="rec-img" src="https://loremflickr.com/300/300/garden,coffee?lock=27" alt="Morning coffee in French garden" loading="lazy">
+          <div class="rec-img place-thumb" role="img" aria-label="Morning coffee in French garden"></div>
           <div class="rec-body">
             <div class="rec-name">☕ Slow Morning Coffee</div>
             <div class="rec-desc">Day 10 is only 3 hours to Calais — there's no rush. Have a long breakfast in the garden, leave when you're ready, and arrive for the crossing with energy to spare.</div>
@@ -1380,10 +1396,10 @@
     <!-- LOISIUM -->
     <div class="hotel-card2">
       <div class="dest-img-wrap">
-        <img class="hotel-card2-img" src="https://loremflickr.com/800/400/vineyard,champagne?lock=1" alt="Champagne vineyards" loading="lazy" />
+        <div class="hotel-card2-img place-thumb" role="img" aria-label="Champagne vineyards"></div>
         <div class="dest-img-label">
           <div><div class="dest-img-label-text">Mutigny, Champagne</div><div class="dest-img-label-sub">France</div></div>
-          <a href="https://www.google.com/maps/search/?api=1&query=LOISIUM+Wine+Spa+Hotel+Champagne+Mutigny" target="_blank" rel="noopener" class="dest-maps-pin">📍 Maps</a>
+          <a href="https://www.google.com/maps/search/?api=1&query=LOISIUM+Wine+Spa+Hotel+Champagne+Mutigny" target="_blank" rel="noopener noreferrer" class="dest-maps-pin">📍 Maps</a>
         </div>
       </div>
       <div class="hotel-card2-body">
@@ -1399,18 +1415,18 @@
         </div>
       </div>
       <div class="hotel-card2-actions">
-        <a href="https://www.google.com/maps/search/?api=1&query=LOISIUM+Wine+Spa+Hotel+Champagne+Mutigny+France" target="_blank" rel="noopener" class="hbtn hbtn-maps">📍 View on Google Maps</a>
-        <a href="https://www.loisium.com/champagne/" target="_blank" rel="noopener" class="hbtn hbtn-web">🌐 Website</a>
+        <a href="https://www.google.com/maps/search/?api=1&query=LOISIUM+Wine+Spa+Hotel+Champagne+Mutigny+France" target="_blank" rel="noopener noreferrer" class="hbtn hbtn-maps">📍 View on Google Maps</a>
+        <a href="https://www.loisium.com/champagne/" target="_blank" rel="noopener noreferrer" class="hbtn hbtn-web">🌐 Website</a>
       </div>
     </div>
 
     <!-- Black Bass -->
     <div class="hotel-card2">
       <div class="dest-img-wrap">
-        <img class="hotel-card2-img" src="https://loremflickr.com/800/400/annecy,lake?lock=2" alt="Annecy lake" loading="lazy" />
+        <div class="hotel-card2-img place-thumb" role="img" aria-label="Annecy lake"></div>
         <div class="dest-img-label">
           <div><div class="dest-img-label-text">Sévrier, Annecy</div><div class="dest-img-label-sub">France</div></div>
-          <a href="https://www.google.com/maps/search/?api=1&query=Black+Bass+Hotel+Sevrier+Annecy" target="_blank" rel="noopener" class="dest-maps-pin">📍 Maps</a>
+          <a href="https://www.google.com/maps/search/?api=1&query=Black+Bass+Hotel+Sevrier+Annecy" target="_blank" rel="noopener noreferrer" class="dest-maps-pin">📍 Maps</a>
         </div>
       </div>
       <div class="hotel-card2-body">
@@ -1426,18 +1442,18 @@
         </div>
       </div>
       <div class="hotel-card2-actions">
-        <a href="https://www.google.com/maps/search/?api=1&query=Black+Bass+Hotel+Sevrier+Annecy+France" target="_blank" rel="noopener" class="hbtn hbtn-maps">📍 View on Google Maps</a>
-        <a href="https://www.google.com/search?q=Black+Bass+Hotel+Sevrier+Annecy+official+website" target="_blank" rel="noopener" class="hbtn hbtn-web">🔍 Search online</a>
+        <a href="https://www.google.com/maps/search/?api=1&query=Black+Bass+Hotel+Sevrier+Annecy+France" target="_blank" rel="noopener noreferrer" class="hbtn hbtn-maps">📍 View on Google Maps</a>
+        <a href="https://www.google.com/search?q=Black+Bass+Hotel+Sevrier+Annecy+official+website" target="_blank" rel="noopener noreferrer" class="hbtn hbtn-web">🔍 Search online</a>
       </div>
     </div>
 
     <!-- Lefay -->
     <div class="hotel-card2 main-base2">
       <div class="dest-img-wrap">
-        <img class="hotel-card2-img" src="https://loremflickr.com/800/400/garda,lake?lock=3" alt="Lake Garda" loading="lazy" />
+        <div class="hotel-card2-img place-thumb" role="img" aria-label="Lake Garda"></div>
         <div class="dest-img-label">
           <div><div class="dest-img-label-text">Gargnano, Lake Garda</div><div class="dest-img-label-sub">Italy · Main base · 5 nights</div></div>
-          <a href="https://www.google.com/maps/search/?api=1&query=Lefay+Resort+Spa+Lago+di+Garda+Gargnano" target="_blank" rel="noopener" class="dest-maps-pin">📍 Maps</a>
+          <a href="https://www.google.com/maps/search/?api=1&query=Lefay+Resort+Spa+Lago+di+Garda+Gargnano" target="_blank" rel="noopener noreferrer" class="dest-maps-pin">📍 Maps</a>
         </div>
       </div>
       <div class="hotel-card2-body">
@@ -1453,18 +1469,18 @@
         </div>
       </div>
       <div class="hotel-card2-actions">
-        <a href="https://www.google.com/maps/search/?api=1&query=Lefay+Resort+Spa+Lago+di+Garda+Gargnano+Italy" target="_blank" rel="noopener" class="hbtn hbtn-maps">📍 View on Google Maps</a>
-        <a href="https://www.lefayresorts.com/en/garda-lake" target="_blank" rel="noopener" class="hbtn hbtn-web">🌐 Website</a>
+        <a href="https://www.google.com/maps/search/?api=1&query=Lefay+Resort+Spa+Lago+di+Garda+Gargnano+Italy" target="_blank" rel="noopener noreferrer" class="hbtn hbtn-maps">📍 View on Google Maps</a>
+        <a href="https://www.lefayresorts.com/en/garda-lake" target="_blank" rel="noopener noreferrer" class="hbtn hbtn-web">🌐 Website</a>
       </div>
     </div>
 
     <!-- Himmelrich -->
     <div class="hotel-card2">
       <div class="dest-img-wrap">
-        <img class="hotel-card2-img" src="https://loremflickr.com/800/400/lucerne,bridge?lock=4" alt="Lucerne" loading="lazy" />
+        <div class="hotel-card2-img place-thumb" role="img" aria-label="Lucerne"></div>
         <div class="dest-img-label">
           <div><div class="dest-img-label-text">Lucerne</div><div class="dest-img-label-sub">Switzerland</div></div>
-          <a href="https://www.google.com/maps/search/?api=1&query=Hotel+Himmelrich+Lucerne+Switzerland" target="_blank" rel="noopener" class="dest-maps-pin">📍 Maps</a>
+          <a href="https://www.google.com/maps/search/?api=1&query=Hotel+Himmelrich+Lucerne+Switzerland" target="_blank" rel="noopener noreferrer" class="dest-maps-pin">📍 Maps</a>
         </div>
       </div>
       <div class="hotel-card2-body">
@@ -1480,18 +1496,18 @@
         </div>
       </div>
       <div class="hotel-card2-actions">
-        <a href="https://www.google.com/maps/search/?api=1&query=Hotel+Himmelrich+Lucerne+Switzerland" target="_blank" rel="noopener" class="hbtn hbtn-maps">📍 View on Google Maps</a>
-        <a href="https://www.hotel-himmelrich.ch/" target="_blank" rel="noopener" class="hbtn hbtn-web">🌐 Website</a>
+        <a href="https://www.google.com/maps/search/?api=1&query=Hotel+Himmelrich+Lucerne+Switzerland" target="_blank" rel="noopener noreferrer" class="hbtn hbtn-maps">📍 View on Google Maps</a>
+        <a href="https://www.hotel-himmelrich.ch/" target="_blank" rel="noopener noreferrer" class="hbtn hbtn-web">🌐 Website</a>
       </div>
     </div>
 
     <!-- Domaine de Barive -->
     <div class="hotel-card2">
       <div class="dest-img-wrap">
-        <img class="hotel-card2-img" src="https://loremflickr.com/800/400/chateau,france?lock=5" alt="French countryside" loading="lazy" />
+        <div class="hotel-card2-img place-thumb" role="img" aria-label="French countryside"></div>
         <div class="dest-img-label">
           <div><div class="dest-img-label-text">Domaine de Barive</div><div class="dest-img-label-sub">Northern France</div></div>
-          <a href="https://www.google.com/maps/search/?api=1&query=Domaine+de+Barive+France" target="_blank" rel="noopener" class="dest-maps-pin">📍 Maps</a>
+          <a href="https://www.google.com/maps/search/?api=1&query=Domaine+de+Barive+France" target="_blank" rel="noopener noreferrer" class="dest-maps-pin">📍 Maps</a>
         </div>
       </div>
       <div class="hotel-card2-body">
@@ -1507,8 +1523,8 @@
         </div>
       </div>
       <div class="hotel-card2-actions">
-        <a href="https://www.google.com/maps/search/?api=1&query=Domaine+de+Barive+Northern+France" target="_blank" rel="noopener" class="hbtn hbtn-maps">📍 View on Google Maps</a>
-        <a href="https://www.google.com/search?q=Domaine+de+Barive+official+website" target="_blank" rel="noopener" class="hbtn hbtn-web">🔍 Search online</a>
+        <a href="https://www.google.com/maps/search/?api=1&query=Domaine+de+Barive+Northern+France" target="_blank" rel="noopener noreferrer" class="hbtn hbtn-maps">📍 View on Google Maps</a>
+        <a href="https://www.google.com/search?q=Domaine+de+Barive+official+website" target="_blank" rel="noopener noreferrer" class="hbtn hbtn-web">🔍 Search online</a>
       </div>
     </div>
 
@@ -1680,7 +1696,9 @@
 
 <script>
   // Tab switching
+  const VALID_TABS = new Set(['itinerary','route','eatdo','hotels','notes','checklist']);
   function switchTab(id) {
+    if (!VALID_TABS.has(id)) return;
     document.querySelectorAll('.tab-view').forEach(v => v.classList.remove('active'));
     document.getElementById('tab-' + id).classList.add('active');
     document.querySelectorAll('.bnav-btn,.dtab').forEach(b => {
