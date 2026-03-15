@@ -374,6 +374,108 @@
       .tab-view{display:block!important}
       body{background:#fff}
     }
+
+    /* ── Drive navigation ── */
+    .drive-nav{
+      display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+      background:var(--blue-bg);border-radius:var(--r);padding:10px 12px;
+      border:1px solid rgba(26,115,232,.2);
+    }
+    .drive-stops{
+      flex:1;min-width:0;display:flex;align-items:center;gap:5px;flex-wrap:wrap;
+      font-size:12px;font-weight:500;
+    }
+    .drive-stop{white-space:nowrap}
+    .drive-stop.origin,.drive-stop.dest{color:var(--blue)}
+    .drive-stop.waypoint{color:var(--orange)}
+    .drive-arrow{color:var(--text3);font-size:12px;flex-shrink:0}
+    .drive-apple-btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:5px;flex-shrink:0;
+      background:var(--blue);color:#fff;
+      padding:8px 14px;border-radius:var(--r-pill);
+      font-size:12px;font-weight:500;text-decoration:none;
+      transition:background .15s;white-space:nowrap;
+    }
+    .drive-apple-btn:hover{background:var(--blue-dark)}
+    .drive-daytrips{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+    .drive-daytrip-btn{
+      display:inline-flex;align-items:center;gap:4px;flex:1;
+      justify-content:center;
+      background:var(--card);color:var(--blue);
+      border:1.5px solid rgba(26,115,232,.3);
+      padding:7px 10px;border-radius:var(--r-pill);
+      font-size:12px;font-weight:500;text-decoration:none;
+      transition:background .15s;white-space:nowrap;
+    }
+    .drive-daytrip-btn:hover{background:var(--blue-bg)}
+
+    /* ── Checklist ── */
+    .checklist-progress{
+      display:flex;align-items:center;gap:10px;padding-bottom:16px;
+    }
+    .progress-bar{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+    .progress-fill{height:100%;background:var(--green);border-radius:3px;transition:width .3s}
+    .progress-text{font-size:12px;color:var(--text2);flex-shrink:0;min-width:56px;text-align:right}
+    .checklist-group{
+      background:var(--card);border-radius:var(--r);
+      box-shadow:var(--shadow);overflow:hidden;margin-bottom:8px;
+    }
+    .checklist-group-hdr{
+      padding:10px 14px;background:var(--bg);border-bottom:1px solid var(--border);
+      font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+      color:var(--text2);display:flex;align-items:center;gap:6px;
+    }
+    .checklist-item{
+      display:flex;align-items:flex-start;gap:12px;
+      padding:11px 14px;border-bottom:1px solid var(--border);
+      cursor:pointer;transition:background .1s;
+      -webkit-tap-highlight-color:transparent;user-select:none;
+    }
+    .checklist-item:last-child{border-bottom:none}
+    .checklist-item:hover{background:var(--bg)}
+    .checklist-item input[type=checkbox]{
+      width:18px;height:18px;flex-shrink:0;margin-top:1px;
+      accent-color:var(--blue);cursor:pointer;
+    }
+    .checklist-item-text{flex:1;font-size:13px;color:var(--text);line-height:1.5}
+    .checklist-item.done .checklist-item-text{text-decoration:line-through;color:var(--text3)}
+    .checklist-reset-btn{
+      display:block;margin:4px auto 20px;
+      padding:8px 24px;border-radius:var(--r-pill);
+      border:1.5px solid var(--border);background:var(--card);
+      font-size:12px;color:var(--text2);cursor:pointer;
+      font-family:'Roboto',sans-serif;transition:background .15s;
+    }
+    .checklist-reset-btn:hover{background:var(--bg)}
+    .emergency-card{
+      background:var(--card);border-radius:var(--r);
+      box-shadow:var(--shadow);overflow:hidden;margin-bottom:12px;
+    }
+    .emergency-hdr{
+      padding:10px 14px;background:var(--orange-bg);border-bottom:1px solid rgba(250,123,23,.2);
+      font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+      color:var(--orange);display:flex;align-items:center;gap:6px;
+    }
+    .emergency-grid{display:grid;grid-template-columns:1fr 1fr}
+    @media(min-width:600px){.emergency-grid{grid-template-columns:repeat(4,1fr)}}
+    .emergency-item{padding:12px 14px;border-right:1px solid var(--border);border-bottom:1px solid var(--border)}
+    .emergency-item:nth-child(even){border-right:none}
+    .emergency-item:last-child,.emergency-item:nth-last-child(2):nth-child(odd){border-bottom:none}
+    @media(min-width:600px){
+      .emergency-item{border-bottom:none}
+      .emergency-item:nth-child(even){border-right:1px solid var(--border)}
+      .emergency-item:nth-child(4n){border-right:none}
+    }
+    .emergency-country{font-size:11px;font-weight:700;color:var(--text2);margin-bottom:4px}
+    .emergency-number{font-size:13px;color:var(--text);font-weight:500;margin-bottom:1px}
+    .emergency-sub{font-size:10px;color:var(--text3);margin-bottom:4px}
+    .hospital-list{display:flex;flex-direction:column;gap:1px;background:var(--border)}
+    .hospital-item{background:var(--card);padding:12px 14px;display:flex;align-items:flex-start;gap:10px}
+    .hospital-icon{font-size:18px;flex-shrink:0;padding-top:1px}
+    .hospital-main{flex:1;min-width:0}
+    .hospital-name{font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px}
+    .hospital-sub{font-size:11px;color:var(--text2);margin-bottom:2px}
+    .hospital-tel{font-size:12px;color:var(--blue);font-weight:500}
   </style>
 </head>
 <body>
@@ -397,6 +499,7 @@
   <button class="dtab" data-tab="esd" role="tab">✨ Eat, See &amp; Do</button>
   <button class="dtab" data-tab="hotels" role="tab">🏨 Hotels</button>
   <button class="dtab" data-tab="notes" role="tab">ℹ Notes</button>
+  <button class="dtab" data-tab="checklist" role="tab">✅ Checklist</button>
 </nav>
 
 <main class="page">
@@ -449,6 +552,16 @@
             <span class="day-chevron">▾</span>
           </div>
           <div class="day-body">
+            <div class="day-section">
+              <div class="drive-nav">
+                <div class="drive-stops">
+                  <span class="drive-stop origin">Calais</span>
+                  <span class="drive-arrow">›</span>
+                  <span class="drive-stop dest">Mutigny</span>
+                </div>
+                <a href="https://maps.apple.com/?saddr=Calais,France&daddr=Mutigny,Champagne,France&dirflg=d" class="drive-apple-btn">🧭 Navigate</a>
+              </div>
+            </div>
             <div class="day-section">
               <div class="hotel-row">
                 <span class="hotel-icon">🏨</span>
@@ -505,6 +618,18 @@
             <span class="day-chevron">▾</span>
           </div>
           <div class="day-body">
+            <div class="day-section">
+              <div class="drive-nav">
+                <div class="drive-stops">
+                  <span class="drive-stop origin">Mutigny</span>
+                  <span class="drive-arrow">›</span>
+                  <span class="drive-stop waypoint">Beaune</span>
+                  <span class="drive-arrow">›</span>
+                  <span class="drive-stop dest">Annecy</span>
+                </div>
+                <a href="https://maps.apple.com/?saddr=Mutigny,Champagne,France&daddr=Beaune,France+to:Sevrier,Annecy,France&dirflg=d" class="drive-apple-btn">🧭 Navigate</a>
+              </div>
+            </div>
             <div class="day-section">
               <div class="lunch-row">
                 <span class="lunch-icon">🍷</span>
@@ -573,6 +698,18 @@
           </div>
           <div class="day-body">
             <div class="day-section">
+              <div class="drive-nav">
+                <div class="drive-stops">
+                  <span class="drive-stop origin">Annecy</span>
+                  <span class="drive-arrow">›</span>
+                  <span class="drive-stop waypoint">Aosta</span>
+                  <span class="drive-arrow">›</span>
+                  <span class="drive-stop dest">Gargnano</span>
+                </div>
+                <a href="https://maps.apple.com/?saddr=Sevrier,Annecy,France&daddr=Aosta,Italy+to:Gargnano,Lake+Garda,Italy&dirflg=d" class="drive-apple-btn">🧭 Navigate</a>
+              </div>
+            </div>
+            <div class="day-section">
               <div class="lunch-row">
                 <span class="lunch-icon">🏛</span>
                 <div><div class="lunch-name-text">Aosta, Italy</div><div class="lunch-sub">Lunch stop · Natural break after Mont Blanc</div></div>
@@ -633,6 +770,14 @@
           </div>
           <div class="day-body">
             <div class="day-section">
+              <div class="ds-label ds-label-blue">🧭 Day trip navigation</div>
+              <div class="drive-daytrips">
+                <a href="https://maps.apple.com/?saddr=Gargnano,Italy&daddr=Limone+sul+Garda,Italy&dirflg=d" class="drive-daytrip-btn">🍋 Limone sul Garda</a>
+                <a href="https://maps.apple.com/?saddr=Gargnano,Italy&daddr=Salo,Lake+Garda,Italy&dirflg=d" class="drive-daytrip-btn">⛵ Salò</a>
+                <a href="https://maps.apple.com/?saddr=Gargnano,Italy&daddr=Gardone+Riviera,Italy&dirflg=d" class="drive-daytrip-btn">🌿 Gardone Riviera</a>
+              </div>
+            </div>
+            <div class="day-section">
               <div class="hotel-row" style="background:#E6F4EA">
                 <span class="hotel-icon">🌿</span>
                 <div><div class="hotel-name-text">Lefay Resort &amp; Spa Lago di Garda</div><div class="hotel-loc">Gargnano · Main base · 5 nights</div></div>
@@ -690,6 +835,18 @@
             <span class="day-chevron">▾</span>
           </div>
           <div class="day-body">
+            <div class="day-section">
+              <div class="drive-nav">
+                <div class="drive-stops">
+                  <span class="drive-stop origin">Gargnano</span>
+                  <span class="drive-arrow">›</span>
+                  <span class="drive-stop waypoint">Ascona</span>
+                  <span class="drive-arrow">›</span>
+                  <span class="drive-stop dest">Lucerne</span>
+                </div>
+                <a href="https://maps.apple.com/?saddr=Gargnano,Lake+Garda,Italy&daddr=Ascona,Ticino,Switzerland+to:Lucerne,Switzerland&dirflg=d" class="drive-apple-btn">🧭 Navigate</a>
+              </div>
+            </div>
             <div class="day-section">
               <div class="lunch-row">
                 <span class="lunch-icon">🌴</span>
@@ -761,6 +918,18 @@
           </div>
           <div class="day-body">
             <div class="day-section">
+              <div class="drive-nav">
+                <div class="drive-stops">
+                  <span class="drive-stop origin">Lucerne</span>
+                  <span class="drive-arrow">›</span>
+                  <span class="drive-stop waypoint">Colmar</span>
+                  <span class="drive-arrow">›</span>
+                  <span class="drive-stop dest">Barive</span>
+                </div>
+                <a href="https://maps.apple.com/?saddr=Lucerne,Switzerland&daddr=Colmar,Alsace,France+to:Domaine+de+Barive,France&dirflg=d" class="drive-apple-btn">🧭 Navigate</a>
+              </div>
+            </div>
+            <div class="day-section">
               <div class="lunch-row">
                 <span class="lunch-icon">🏘</span>
                 <div><div class="lunch-name-text">Colmar, Alsace</div><div class="lunch-sub">Lunch stop · Petite Venise canals</div></div>
@@ -814,6 +983,16 @@
             <span class="day-chevron">▾</span>
           </div>
           <div class="day-body">
+            <div class="day-section">
+              <div class="drive-nav">
+                <div class="drive-stops">
+                  <span class="drive-stop origin">Barive</span>
+                  <span class="drive-arrow">›</span>
+                  <span class="drive-stop dest">Calais</span>
+                </div>
+                <a href="https://maps.apple.com/?saddr=Domaine+de+Barive,France&daddr=Calais,France&dirflg=d" class="drive-apple-btn">🧭 Navigate</a>
+              </div>
+            </div>
             <div class="day-section">
               <div class="fact-box" style="background:var(--green-bg);border-color:var(--green);color:#137333">✨ A gentle final morning. Leave when ready, stop for a coffee along the way, and arrive knowing you've done something genuinely beautiful together before a big new chapter begins.</div>
             </div>
@@ -1345,6 +1524,142 @@
   </div>
 </section>
 
+
+<!-- ══════════ CHECKLIST ══════════ -->
+<section id="tab-checklist" class="tab-view" role="tabpanel">
+  <div class="section-hdr"><h2>Before you go</h2><div class="section-hdr-line"></div></div>
+  <div class="checklist-progress">
+    <div class="progress-bar"><div class="progress-fill" id="checklist-fill" style="width:0%"></div></div>
+    <div class="progress-text" id="checklist-count">0 / 26</div>
+  </div>
+
+  <div class="checklist-group">
+    <div class="checklist-group-hdr">📄 Documents &amp; Insurance</div>
+    <label class="checklist-item"><input type="checkbox" data-key="doc1"><span class="checklist-item-text">EHIC / GHIC cards for both of you</span></label>
+    <label class="checklist-item"><input type="checkbox" data-key="doc2"><span class="checklist-item-text">Travel insurance — confirm pregnancy &amp; maternity coverage in writing</span></label>
+    <label class="checklist-item"><input type="checkbox" data-key="doc3"><span class="checklist-item-text">Passports valid for the full trip</span></label>
+    <label class="checklist-item"><input type="checkbox" data-key="doc4"><span class="checklist-item-text">Hotel booking confirmations downloaded offline</span></label>
+    <label class="checklist-item"><input type="checkbox" data-key="doc5"><span class="checklist-item-text">Eurotunnel / ferry booking confirmed</span></label>
+  </div>
+
+  <div class="checklist-group">
+    <div class="checklist-group-hdr">🏥 Health &amp; Medical</div>
+    <label class="checklist-item"><input type="checkbox" data-key="hlt1"><span class="checklist-item-text">Maternity notes / pregnancy records packed</span></label>
+    <label class="checklist-item"><input type="checkbox" data-key="hlt2"><span class="checklist-item-text">GP letter confirming fit to travel (check your insurance requirement)</span></label>
+    <label class="checklist-item"><input type="checkbox" data-key="hlt3"><span class="checklist-item-text">All prescription medications — enough supply plus a few days extra</span></label>
+    <label class="checklist-item"><input type="checkbox" data-key="hlt4"><span class="checklist-item-text">Prenatal vitamins for 10 days + buffer</span></label>
+    <label class="checklist-item"><input type="checkbox" data-key="hlt5"><span class="checklist-item-text">Blood group information for both travellers</span></label>
+    <label class="checklist-item"><input type="checkbox" data-key="hlt6"><span class="checklist-item-text">Pregnancy-safe pain relief &amp; antacids confirmed with midwife</span></label>
+  </div>
+
+  <div class="checklist-group">
+    <div class="checklist-group-hdr">🚗 Comfort &amp; On the Road</div>
+    <label class="checklist-item"><input type="checkbox" data-key="cft1"><span class="checklist-item-text">Compression socks for long driving days (reduces DVT risk)</span></label>
+    <label class="checklist-item"><input type="checkbox" data-key="cft2"><span class="checklist-item-text">Pregnancy pillow or lumbar support for the car</span></label>
+    <label class="checklist-item"><input type="checkbox" data-key="cft3"><span class="checklist-item-text">Snacks for the car — nausea-friendly options</span></label>
+    <label class="checklist-item"><input type="checkbox" data-key="cft4"><span class="checklist-item-text">Refillable water bottle for each driving day</span></label>
+    <label class="checklist-item"><input type="checkbox" data-key="cft5"><span class="checklist-item-text">Phone charger + in-car adapter</span></label>
+    <label class="checklist-item"><input type="checkbox" data-key="cft6"><span class="checklist-item-text">Comfortable flat shoes for town strolls</span></label>
+    <label class="checklist-item"><input type="checkbox" data-key="cft7"><span class="checklist-item-text">Offline maps downloaded for France, Italy &amp; Switzerland</span></label>
+  </div>
+
+  <div class="checklist-group">
+    <div class="checklist-group-hdr">💆 Spa &amp; Wellness</div>
+    <label class="checklist-item"><input type="checkbox" data-key="spa1"><span class="checklist-item-text">Lefay Resort spa treatments pre-booked — fills fast, do this now</span></label>
+    <label class="checklist-item"><input type="checkbox" data-key="spa2"><span class="checklist-item-text">LOISIUM Champagne — confirm pregnancy-safe treatment on arrival</span></label>
+    <label class="checklist-item"><input type="checkbox" data-key="spa3"><span class="checklist-item-text">Pregnancy-safe sunscreen (SPF 50+, mineral preferred)</span></label>
+  </div>
+
+  <div class="checklist-group">
+    <div class="checklist-group-hdr">✈️ Pre-Departure</div>
+    <label class="checklist-item"><input type="checkbox" data-key="pre1"><span class="checklist-item-text">Bank / cards notified of all travel countries and dates</span></label>
+    <label class="checklist-item"><input type="checkbox" data-key="pre2"><span class="checklist-item-text">Car checked — oil, tyre pressure, breakdown cover active</span></label>
+    <label class="checklist-item"><input type="checkbox" data-key="pre3"><span class="checklist-item-text">Swiss motorway vignette purchased — required, fined without it (CHF 40)</span></label>
+    <label class="checklist-item"><input type="checkbox" data-key="pre4"><span class="checklist-item-text">Mont Blanc tunnel toll ready — approx. €53 each way</span></label>
+    <label class="checklist-item"><input type="checkbox" data-key="pre5"><span class="checklist-item-text">Emergency contacts left with family at home</span></label>
+  </div>
+
+  <button class="checklist-reset-btn" id="checklist-reset">↺ Reset all</button>
+
+  <div class="section-hdr"><h2>Emergency numbers</h2><div class="section-hdr-line"></div></div>
+  <div class="emergency-card">
+    <div class="emergency-hdr">🚨 Call these for urgent medical help</div>
+    <div class="emergency-grid">
+      <div class="emergency-item">
+        <div class="emergency-country">🇫🇷 France</div>
+        <div class="emergency-number">SAMU <strong>15</strong></div>
+        <div class="emergency-sub">Medical emergency</div>
+        <div class="emergency-number">EU Emergency <strong>112</strong></div>
+      </div>
+      <div class="emergency-item">
+        <div class="emergency-country">🇮🇹 Italy</div>
+        <div class="emergency-number">Ambulance <strong>118</strong></div>
+        <div class="emergency-sub">Pronto Soccorso</div>
+        <div class="emergency-number">EU Emergency <strong>112</strong></div>
+      </div>
+      <div class="emergency-item">
+        <div class="emergency-country">🇨🇭 Switzerland</div>
+        <div class="emergency-number">Ambulance <strong>144</strong></div>
+        <div class="emergency-sub">Sanità / Ambulanz</div>
+        <div class="emergency-number">EU Emergency <strong>112</strong></div>
+      </div>
+      <div class="emergency-item">
+        <div class="emergency-country">🇬🇧 From UK</div>
+        <div class="emergency-number">NHS 111 <strong>+44 111</strong></div>
+        <div class="emergency-sub">Non-emergency advice</div>
+        <div class="emergency-number">Police <strong>+44 999</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-hdr"><h2>Hospitals along the route</h2><div class="section-hdr-line"></div></div>
+  <div class="emergency-card">
+    <div class="emergency-hdr">🏥 Nearest maternity-capable hospitals to each stop</div>
+    <div class="hospital-list">
+      <div class="hospital-item">
+        <div class="hospital-icon">🏥</div>
+        <div class="hospital-main">
+          <div class="hospital-name">CHU de Reims</div>
+          <div class="hospital-sub">Night 1 · Champagne · ~45 min from Mutigny</div>
+          <div class="hospital-tel">+33 3 26 78 78 78</div>
+        </div>
+      </div>
+      <div class="hospital-item">
+        <div class="hospital-icon">🏥</div>
+        <div class="hospital-main">
+          <div class="hospital-name">CHANGE — Centre Hospitalier Annecy Genevois</div>
+          <div class="hospital-sub">Night 2 · Annecy · ~15 min from Sévrier</div>
+          <div class="hospital-tel">+33 4 50 63 65 65</div>
+        </div>
+      </div>
+      <div class="hospital-item">
+        <div class="hospital-icon">🏥</div>
+        <div class="hospital-main">
+          <div class="hospital-name">Ospedale di Salò</div>
+          <div class="hospital-sub">Nights 3–7 · Lake Garda · ~30 min from Gargnano</div>
+          <div class="hospital-tel">+39 0365 520 333</div>
+        </div>
+      </div>
+      <div class="hospital-item">
+        <div class="hospital-icon">🏥</div>
+        <div class="hospital-main">
+          <div class="hospital-name">Luzerner Kantonsspital (LUKS)</div>
+          <div class="hospital-sub">Night 8 · Lucerne · ~10 min away</div>
+          <div class="hospital-tel">+41 41 205 11 11</div>
+        </div>
+      </div>
+      <div class="hospital-item">
+        <div class="hospital-icon">🏥</div>
+        <div class="hospital-main">
+          <div class="hospital-name">Hôpitaux Civils de Colmar</div>
+          <div class="hospital-sub">Night 9 transit · Colmar · in town</div>
+          <div class="hospital-tel">+33 3 89 12 40 00</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 </main>
 
 <!-- BOTTOM NAV (mobile only) -->
@@ -1354,6 +1669,7 @@
   <button class="bnav-btn" data-tab="esd"><span class="icon">✨</span><span>Eat &amp; Do</span><span class="bnav-indicator"></span></button>
   <button class="bnav-btn" data-tab="hotels"><span class="icon">🏨</span><span>Hotels</span><span class="bnav-indicator"></span></button>
   <button class="bnav-btn" data-tab="notes"><span class="icon">ℹ</span><span>Notes</span><span class="bnav-indicator"></span></button>
+  <button class="bnav-btn" data-tab="checklist"><span class="icon">✅</span><span>Checklist</span><span class="bnav-indicator"></span></button>
 </nav>
 
 <script>
@@ -1377,6 +1693,34 @@
       const card = h.parentElement;
       card.classList.toggle('open');
     });
+  });
+
+  // Checklist — localStorage persistence
+  const chkInputs = document.querySelectorAll('#tab-checklist input[type=checkbox]');
+  function refreshProgress() {
+    const total = chkInputs.length;
+    const done  = Array.from(chkInputs).filter(c => c.checked).length;
+    document.getElementById('checklist-fill').style.width = (total ? done/total*100 : 0) + '%';
+    document.getElementById('checklist-count').textContent = done + ' / ' + total;
+  }
+  chkInputs.forEach(cb => {
+    cb.checked = localStorage.getItem('chk_' + cb.dataset.key) === '1';
+    cb.closest('.checklist-item').classList.toggle('done', cb.checked);
+    cb.addEventListener('change', () => {
+      localStorage.setItem('chk_' + cb.dataset.key, cb.checked ? '1' : '0');
+      cb.closest('.checklist-item').classList.toggle('done', cb.checked);
+      refreshProgress();
+    });
+  });
+  refreshProgress();
+  document.getElementById('checklist-reset').addEventListener('click', () => {
+    if (!confirm('Reset all checkboxes?')) return;
+    chkInputs.forEach(cb => {
+      cb.checked = false;
+      localStorage.removeItem('chk_' + cb.dataset.key);
+      cb.closest('.checklist-item').classList.remove('done');
+    });
+    refreshProgress();
   });
 </script>
 </body>
