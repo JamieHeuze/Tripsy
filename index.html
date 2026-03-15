@@ -49,7 +49,11 @@
     .desktop-tabs{display:none}
     @media(min-width:769px){
       .desktop-tabs{
-        display:flex;background:var(--card);border-bottom:1px solid var(--border);
+        display:flex;
+        background:rgba(255,255,255,.82);
+        -webkit-backdrop-filter:blur(20px) saturate(1.8);
+        backdrop-filter:blur(20px) saturate(1.8);
+        border-bottom:.5px solid rgba(0,0,0,.1);
         padding:0 24px;gap:0;position:sticky;top:56px;z-index:100;
       }
       .dtab{
@@ -64,30 +68,45 @@
       .bottom-nav{display:none!important}
     }
 
-    /* ── Bottom nav (mobile) ── */
+    /* ── Bottom nav (mobile) — iOS 26 Liquid Glass ── */
     .bottom-nav{
       position:fixed;bottom:0;left:0;right:0;z-index:200;
-      background:var(--card);
-      border-top:1px solid var(--border);
       display:flex;
-      padding-bottom:env(safe-area-inset-bottom,0);
+      /* Liquid Glass */
+      background:rgba(248,249,250,.82);
+      -webkit-backdrop-filter:blur(24px) saturate(1.8);
+      backdrop-filter:blur(24px) saturate(1.8);
+      /* Hairline separator */
+      border-top:.5px solid rgba(0,0,0,.1);
+      box-shadow:0 -4px 32px rgba(60,64,67,.07);
+      /* Safe area — always at least 12 px above home indicator */
+      padding-top:8px;
+      padding-bottom:max(env(safe-area-inset-bottom),12px);
     }
     .bnav-btn{
-      flex:1;padding:8px 4px 10px;border:none;background:none;cursor:pointer;
+      flex:1;padding:0 2px;border:none;background:none;cursor:pointer;
       display:flex;flex-direction:column;align-items:center;gap:3px;
-      font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:10px;font-weight:500;
-      color:var(--text3);letter-spacing:.03em;transition:color .15s;
+      font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+      font-size:10px;font-weight:500;color:var(--text3);letter-spacing:.03em;
+      transition:color .2s;-webkit-tap-highlight-color:transparent;
     }
-    .bnav-btn .icon{font-size:20px;line-height:1}
+    /* Icon pill */
+    .bnav-btn .icon{
+      font-size:21px;line-height:1;
+      display:flex;align-items:center;justify-content:center;
+      width:46px;height:30px;border-radius:15px;
+      transition:background .2s, transform .12s;
+    }
+    /* Active state — glass pill + blue tint */
     .bnav-btn.active{color:var(--blue)}
-    .bnav-btn.active .bnav-indicator{
-      display:block;width:32px;height:2px;background:var(--blue);
-      border-radius:1px;margin-top:2px;
-    }
-    .bnav-indicator{display:none}
+    .bnav-btn.active .icon{background:rgba(26,115,232,.12)}
+    /* Tap feedback */
+    .bnav-btn:active .icon{transform:scale(.88)}
+    /* Old underline indicator hidden */
+    .bnav-indicator{display:none!important}
 
     /* ── Page wrapper ── */
-    .page{max-width:1100px;margin:0 auto;padding:16px 16px 96px}
+    .page{max-width:1100px;margin:0 auto;padding:16px 16px calc(80px + env(safe-area-inset-bottom,0px))}
     @media(min-width:769px){.page{padding:24px 24px 40px}}
 
     /* ── Tab views ── */
@@ -1696,7 +1715,7 @@
 
 <script>
   // Tab switching
-  const VALID_TABS = new Set(['itinerary','route','eatdo','hotels','notes','checklist']);
+  const VALID_TABS = new Set(['itinerary','route','esd','hotels','notes','checklist']);
   function switchTab(id) {
     if (!VALID_TABS.has(id)) return;
     document.querySelectorAll('.tab-view').forEach(v => v.classList.remove('active'));
