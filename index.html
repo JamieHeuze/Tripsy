@@ -261,6 +261,15 @@
     .lunch-icon{font-size:20px;flex-shrink:0}
     .lunch-name-text{font-size:13px;font-weight:500;color:var(--text)}
     .lunch-sub{font-size:11px;color:var(--text2)}
+    .parking-row{
+      display:flex;align-items:flex-start;gap:8px;
+      background:#F1F8E9;border-radius:6px;padding:8px 10px;
+      margin-top:5px;
+    }
+    .parking-icon{font-size:15px;flex-shrink:0;padding-top:1px}
+    .parking-body{flex:1;min-width:0}
+    .parking-name{font-size:12px;font-weight:600;color:#2E7D32}
+    .parking-note{font-size:11px;color:var(--text2);margin-top:1px}
 
     .rec-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:2px}
     .rc{
@@ -434,6 +443,28 @@
       transition:background .15s;white-space:nowrap;
     }
     .drive-daytrip-btn:hover{background:var(--blue-bg)}
+    .toll-row{
+      width:100%;display:flex;align-items:baseline;gap:5px;
+      padding-top:7px;margin-top:2px;border-top:1px solid rgba(26,115,232,.14);
+      font-size:11.5px;color:var(--text2);
+    }
+    .toll-amount{font-size:12px;font-weight:600;color:var(--text);flex-shrink:0}
+    .toll-note-text{flex:1;color:var(--text3);font-size:11px}
+    .toll-chip{
+      display:inline-block;padding:0 6px;border-radius:4px;
+      font-size:10px;font-weight:600;white-space:nowrap;
+      background:#FFF3E0;color:#BF360C;border:1px solid #FFCC80;
+    }
+    .toll-chip-blue{
+      display:inline-block;padding:0 6px;border-radius:4px;
+      font-size:10px;font-weight:600;white-space:nowrap;
+      background:var(--blue-bg);color:var(--blue);border:1px solid rgba(26,115,232,.25);
+    }
+    .daytrip-toll{
+      display:flex;align-items:center;gap:5px;margin-top:8px;
+      font-size:11.5px;color:var(--text2);
+    }
+    .daytrip-toll .toll-amount{color:var(--green)}
 
     /* ── Checklist ── */
     .checklist-progress{
@@ -553,7 +584,7 @@
     <div class="hero-banner"><span class="hero-emoji">🗺️</span></div>
     <div class="hero-body">
       <div class="hero-title">Babymoon Journey Planner</div>
-      <div class="hero-sub">A calm European escape through Champagne, the Alps, Lake Garda and back.</div>
+      <div class="hero-sub">A calm European escape through Champagne, the Alps, Lake Garda and back. (Yes, you're allowed this.)</div>
       <div class="hero-date-row">📅 24 March – 3 April 2025 &nbsp;·&nbsp; Self-drive</div>
       <div class="hero-chips">
         <span class="chip chip-blue">10 Days</span>
@@ -601,6 +632,10 @@
                   <span class="drive-stop dest">Mutigny</span>
                 </div>
                 <a href="https://maps.apple.com/?saddr=Calais,France&daddr=LOISIUM+Wine+Spa+Hotel+Champagne,Mutigny,France&dirflg=d" class="drive-apple-btn">🧭 Navigate</a>
+                <div class="toll-row">
+                  <span>🛂</span><span class="toll-amount">~€18</span>
+                  <span class="toll-note-text">A26 péage</span>
+                </div>
               </div>
             </div>
             <div class="day-section">
@@ -638,7 +673,7 @@
               </div>
             </div>
             <div class="day-section">
-              <div class="pace-note">First-night decompression stop. Short drive, immediate vineyard atmosphere, spa reset. Arrive, breathe, unwind.</div>
+              <div class="pace-note">First-night decompression stop. Short drive, immediate vineyard atmosphere, spa reset. You're surrounded by world-class Champagne you can't drink — which is either funny or a matter for your therapist. Either way, the spa is excellent.</div>
             </div>
           </div>
         </div>
@@ -669,12 +704,23 @@
                   <span class="drive-stop dest">Annecy</span>
                 </div>
                 <a href="https://maps.apple.com/?saddr=LOISIUM+Wine+Spa+Hotel+Champagne,Mutigny,France&daddr=Beaune,France+to:Black+Bass+Hotel,Sevrier,France&dirflg=d" class="drive-apple-btn">🧭 Navigate</a>
+                <div class="toll-row">
+                  <span>🛂</span><span class="toll-amount">~€40</span>
+                  <span class="toll-note-text">A6 + A40–A41 péage</span>
+                </div>
               </div>
             </div>
             <div class="day-section">
               <div class="lunch-row">
                 <span class="lunch-icon">🍷</span>
                 <div><div class="lunch-name-text">Beaune, Burgundy</div><div class="lunch-sub">Lunch stop · 60–90 min stroll</div></div>
+              </div>
+              <div class="parking-row">
+                <span class="parking-icon">🅿</span>
+                <div class="parking-body">
+                  <div class="parking-name">Parking des Marronniers — best option</div>
+                  <div class="parking-note">Just outside the ring road, 5 min flat walk to the Hospices. €1.50/hr · Free on Sundays · Follow "Centre Ville" signs then P signs.</div>
+                </div>
               </div>
             </div>
             <div class="day-section">
@@ -685,7 +731,7 @@
               </div>
             </div>
             <div class="day-section">
-              <div class="fact-box">ℹ️ Beaune's Hospices de Beaune was founded in 1443. Its polychrome Flemish roof tiles are one of the most photographed sights in Burgundy — still hosting the world's most famous wine auction every November.</div>
+              <div class="fact-box">ℹ️ Beaune's Hospices de Beaune was founded in 1443. Its polychrome Flemish roof tiles are one of the most photographed sights in Burgundy — still hosting the world's most famous wine auction every November. Entire vintages sell here for prices that make the Mont Blanc Tunnel look reasonable.</div>
             </div>
             <div class="day-section">
               <div class="ds-label ds-label-blue">👁 See — Beaune</div>
@@ -717,7 +763,7 @@
               </div>
             </div>
             <div class="day-section">
-              <div class="pace-note">Alpine transition night. Sévrier is a quieter lakeside village just south of Annecy — short stroll, memorable scenery, early night before the Italian leg.</div>
+              <div class="pace-note">Alpine transition night. Sévrier sits on Europe's cleanest lake, framed by mountains you can see but don't have to climb. Short stroll, memorable scenery, early night. It's genuinely annoying how beautiful it all is.</div>
             </div>
           </div>
         </div>
@@ -748,12 +794,23 @@
                   <span class="drive-stop dest">Gargnano</span>
                 </div>
                 <a href="https://maps.apple.com/?saddr=Black+Bass+Hotel,Sevrier,France&daddr=Aosta,Italy+to:Lefay+Resort+Spa,Gargnano,Italy&dirflg=d" class="drive-apple-btn">🧭 Navigate</a>
+                <div class="toll-row">
+                  <span>🛂</span><span class="toll-amount">~€82</span>
+                  <span class="toll-note-text">French + Italian péage · <span class="toll-chip">Mont Blanc Tunnel ~€58</span></span>
+                </div>
               </div>
             </div>
             <div class="day-section">
               <div class="lunch-row">
                 <span class="lunch-icon">🏛</span>
                 <div><div class="lunch-name-text">Aosta, Italy</div><div class="lunch-sub">Lunch stop · Natural break after Mont Blanc</div></div>
+              </div>
+              <div class="parking-row">
+                <span class="parking-icon">🅿</span>
+                <div class="parking-body">
+                  <div class="parking-name">Parcheggio Via Paravera / Centro Storico — best option</div>
+                  <div class="parking-note">Large pay car park near the Roman centre. Follow "Centro Storico" signs. €1/hr · Everything (Porta Praetoria, Theatre, Arch) within 5 min flat walk.</div>
+                </div>
               </div>
             </div>
             <div class="day-section">
@@ -764,7 +821,7 @@
               </div>
             </div>
             <div class="day-section">
-              <div class="fact-box">ℹ️ Aosta has been called the "Rome of the Alps" — a compact Roman city with an intact amphitheatre, a triumphal arch, and a Roman gate all within a few minutes' walk of each other.</div>
+              <div class="fact-box">ℹ️ Aosta has been called the "Rome of the Alps" — a compact Roman city with an intact amphitheatre, a triumphal arch, and a Roman gate all within a few minutes' walk of each other. The Romans clearly didn't have to pay €58 to get through the mountain.</div>
             </div>
             <div class="day-section">
               <div class="ds-label ds-label-blue">👁 See — Aosta</div>
@@ -789,7 +846,7 @@
               </div>
             </div>
             <div class="day-section">
-              <div class="pace-note">Big driving day. Keep Aosta to 60–90 minutes then continue south. Arrive at Lefay before sunset — the views from the resort are worth it.</div>
+              <div class="pace-note">The drive of the trip. The Mont Blanc Tunnel is 11.6 km and costs ~€58 — roughly €5 per kilometre, which is private helicopter territory. Savour every metre. On the other side: Italy. Completely worth it.</div>
             </div>
           </div>
         </div>
@@ -816,6 +873,10 @@
                 <a href="https://maps.apple.com/?saddr=Lefay+Resort+Spa,Gargnano,Italy&daddr=Limone+sul+Garda,Italy&dirflg=d" class="drive-daytrip-btn">🍋 Limone sul Garda</a>
                 <a href="https://maps.apple.com/?saddr=Lefay+Resort+Spa,Gargnano,Italy&daddr=Salo,Lake+Garda,Italy&dirflg=d" class="drive-daytrip-btn">⛵ Salò</a>
                 <a href="https://maps.apple.com/?saddr=Lefay+Resort+Spa,Gargnano,Italy&daddr=Gardone+Riviera,Italy&dirflg=d" class="drive-daytrip-btn">🌿 Gardone Riviera</a>
+              </div>
+              <div class="daytrip-toll">
+                <span>🛂</span><span class="toll-amount">No toll</span>
+                <span class="toll-note-text">All via scenic lakeside road (SP38)</span>
               </div>
             </div>
             <div class="day-section">
@@ -855,7 +916,7 @@
               </div>
             </div>
             <div class="day-section">
-              <div class="pace-note">The heart of the trip. No agenda — let the spa, the lake, and good food set the rhythm. Day trips to Salò and Limone are both under 30 min each way.</div>
+              <div class="pace-note">The heart of the trip. No agenda. No alarm. No plan. Just the spa, the lake, and long lunches. Day trips to Salò and Limone are both under 30 min each way. Enjoy the silence — next year someone else will be setting your wake-up call, and they won't accept snooze.</div>
             </div>
           </div>
         </div>
@@ -886,12 +947,23 @@
                   <span class="drive-stop dest">Lucerne</span>
                 </div>
                 <a href="https://maps.apple.com/?saddr=Lefay+Resort+Spa,Gargnano,Italy&daddr=Ascona,Ticino,Switzerland+to:Hotel+Himmelrich,Lucerne,Switzerland&dirflg=d" class="drive-apple-btn">🧭 Navigate</a>
+                <div class="toll-row">
+                  <span>🛂</span><span class="toll-amount">~€52</span>
+                  <span class="toll-note-text">Italian péage · <span class="toll-chip">Swiss vignette CHF 40</span> · buy at border</span>
+                </div>
               </div>
             </div>
             <div class="day-section">
               <div class="lunch-row">
                 <span class="lunch-icon">🌴</span>
                 <div><div class="lunch-name-text">Ascona, Switzerland</div><div class="lunch-sub">Lunch stop · Lake Maggiore promenade</div></div>
+              </div>
+              <div class="parking-row">
+                <span class="parking-icon">🅿</span>
+                <div class="parking-body">
+                  <div class="parking-name">Parcheggio Piazzale Moscia — best option</div>
+                  <div class="parking-note">Main tourist car park just south of the pedestrian centre. Follow "Parcheggio" signs on approach from Locarno. CHF 2/hr · 5 min walk to the lakefront piazza.</div>
+                </div>
               </div>
             </div>
             <div class="day-section">
@@ -902,7 +974,7 @@
               </div>
             </div>
             <div class="day-section">
-              <div class="fact-box">ℹ️ Ascona is Switzerland's southernmost town — with palm trees, a sunny lake promenade, and a Mediterranean feel that surprises most visitors, all just steps from each other.</div>
+              <div class="fact-box">ℹ️ Ascona is Switzerland's southernmost town — palm trees, sunny lake promenade, Mediterranean atmosphere, Italian language. It's like the Alps got confused and came out on the Riviera. Even the Swiss can't explain it.</div>
             </div>
             <div class="day-section">
               <div class="ds-label ds-label-blue">👁 See — Ascona</div>
@@ -937,7 +1009,7 @@
               </div>
             </div>
             <div class="day-section">
-              <div class="pace-note">Gentle transition day after the Garda stay. Ascona is a perfect halfway point — Mediterranean atmosphere, easy parking, great lunch.</div>
+              <div class="pace-note">Gentle transition day after Garda. Ascona genuinely surprises people — Switzerland has no business being this warm and Italian-feeling. Perfect lunch stop, then north through the mountains to Lucerne for the evening.</div>
             </div>
           </div>
         </div>
@@ -968,12 +1040,23 @@
                   <span class="drive-stop dest">Barive</span>
                 </div>
                 <a href="https://maps.apple.com/?saddr=Hotel+Himmelrich,Lucerne,Switzerland&daddr=Colmar,Alsace,France+to:Domaine+de+Barive,Sainte-Croix,France&dirflg=d" class="drive-apple-btn">🧭 Navigate</a>
+                <div class="toll-row">
+                  <span>🛂</span><span class="toll-amount">~€27</span>
+                  <span class="toll-note-text">French péage · <span class="toll-chip-blue">vignette covers Switzerland</span></span>
+                </div>
               </div>
             </div>
             <div class="day-section">
               <div class="lunch-row">
                 <span class="lunch-icon">🏘</span>
                 <div><div class="lunch-name-text">Colmar, Alsace</div><div class="lunch-sub">Lunch stop · Petite Venise canals</div></div>
+              </div>
+              <div class="parking-row">
+                <span class="parking-icon">🅿</span>
+                <div class="parking-body">
+                  <div class="parking-name">Parking Rapp — best option</div>
+                  <div class="parking-note">Closest paid car park to Petite Venise and the old town. Follow blue P signs from the ring road. €1.50/hr · 3 min walk to the canal district · signs say "Centre Historique".</div>
+                </div>
               </div>
             </div>
             <div class="day-section">
@@ -984,7 +1067,7 @@
               </div>
             </div>
             <div class="day-section">
-              <div class="fact-box">ℹ️ Colmar's Petite Venise (Little Venice) is one of the best-preserved medieval Alsatian centres in France — half-timbered houses in candy colours reflected in canal water, just as they appeared 500 years ago.</div>
+              <div class="fact-box">ℹ️ Colmar's Petite Venise is one of the best-preserved medieval Alsatian centres in France — half-timbered houses in candy colours reflected in canal water, just as they appeared 500 years ago. It looks like a film set but it's real, which is slightly annoying.</div>
             </div>
             <div class="day-section">
               <div class="ds-label ds-label-blue">👁 See — Colmar</div>
@@ -1003,7 +1086,7 @@
               </div>
             </div>
             <div class="day-section">
-              <div class="pace-note">Longest drive of the trip — break it up well with Colmar. Arrive at Barive in the evening and keep the night relaxed. Tomorrow is just 3 hours home.</div>
+              <div class="pace-note">Longest drive of the trip. Colmar looks like someone fed "perfect French village" into an AI and forgot to add any flaws. Allow yourself time here. Arrive at Barive in the evening, keep the night gentle. Tomorrow is just 3 hours home.</div>
             </div>
           </div>
         </div>
@@ -1032,6 +1115,10 @@
                   <span class="drive-stop dest">Calais</span>
                 </div>
                 <a href="https://maps.apple.com/?saddr=Domaine+de+Barive,Sainte-Croix,France&daddr=Calais,France&dirflg=d" class="drive-apple-btn">🧭 Navigate</a>
+                <div class="toll-row">
+                  <span>🛂</span><span class="toll-amount">~€16</span>
+                  <span class="toll-note-text">A26 péage north to Calais</span>
+                </div>
               </div>
             </div>
             <div class="day-section">
@@ -1046,7 +1133,7 @@
               </div>
             </div>
             <div class="day-section">
-              <div class="pace-note">No rush today. The trip is done. Arrive in Calais with plenty of time to spare before your crossing.</div>
+              <div class="pace-note">No rush. The trip is done. Today is 3 hours to Calais — shorter than the average IKEA Saturday. Take a slow breakfast, leave when you're ready, stop for a good coffee en route. Arrive as two people who just did something wonderful.</div>
             </div>
           </div>
         </div>
@@ -1174,7 +1261,7 @@
           <img class="rec-img" data-wiki="Épernay" alt="Champagne cellar Épernay">
           <div class="rec-body">
             <div class="rec-name">🥂 Champagne Cellar Visit</div>
-            <div class="rec-desc">The chalk cellars of Épernay are a 20-minute drive away. Fascinating UNESCO-listed tunnels where the world's finest bubbles are made — still a great visit without drinking.</div>
+            <div class="rec-desc">The chalk cellars of Épernay are a 20-minute drive away. Fascinating UNESCO-listed tunnels where the world's finest bubbles are made — still a genuinely great visit without drinking, which you can feel quietly smug about the whole way round.</div>
           </div>
         </div>
       </div>
@@ -1202,7 +1289,7 @@
           <div class="rec-img place-thumb" role="img" aria-label="Burgundy lunch"></div>
           <div class="rec-body">
             <div class="rec-name">🍷 Terrace Bistro Lunch</div>
-            <div class="rec-desc">Sit on a sunny square terrace and order boeuf bourguignon or Burgundy escargots. This is one of France's great food towns — make the most of it.</div>
+            <div class="rec-desc">Sit on a sunny square terrace and order boeuf bourguignon or Burgundy escargots. This is one of France's great food towns — make the most of it. Everything here is excellent and everyone around you is French, which is basically a Michelin star in itself.</div>
           </div>
         </div>
       </div>
@@ -1230,7 +1317,7 @@
           <div class="rec-img place-thumb" role="img" aria-label="Alpine dinner"></div>
           <div class="rec-body">
             <div class="rec-name">🧀 Alpine Dinner</div>
-            <div class="rec-desc">Tartiflette (potatoes, reblochon cheese, lardons) or a hearty fondue in an Annecy restaurant. True Alpine comfort food at its best.</div>
+            <div class="rec-desc">Tartiflette (potatoes, reblochon cheese, lardons) or a hearty fondue in an Annecy restaurant. True Alpine comfort food at its best. Nutritionally questionable. Emotionally essential.</div>
           </div>
         </div>
       </div>
@@ -1342,7 +1429,7 @@
           <div class="rec-img place-thumb" role="img" aria-label="Swiss fondue dinner"></div>
           <div class="rec-body">
             <div class="rec-name">🧀 Swiss Fondue Dinner</div>
-            <div class="rec-desc">Sharing a fondue or raclette in an old-town Lucerne restaurant is a quintessential Swiss experience. Warm, convivial and ideal for a romantic evening.</div>
+            <div class="rec-desc">Sharing a fondue or raclette in an old-town Lucerne restaurant is a quintessential Swiss experience. Warm, convivial, romantic — and cheese is the one European indulgence with absolutely no pregnancy caveats. Order large.</div>
           </div>
         </div>
       </div>
@@ -1557,10 +1644,10 @@
     <div class="note-item"><div class="note-icon-wrap">🗺</div><div class="note-item-main"><div class="note-item-title">Lunch stop approach</div><div class="note-item-text">Park once, stroll, lunch, continue. Keep each stop to 60–90 minutes to stay comfortable and arrive at hotels by early evening.</div></div></div>
     <div class="note-item"><div class="note-icon-wrap">🌿</div><div class="note-item-main"><div class="note-item-title">Pace guidance</div><div class="note-item-text">This trip is designed for a calm, pregnancy-friendly pace. No back-to-back sightseeing. Prioritise comfort, good food, and scenery over ticking boxes.</div></div></div>
     <div class="note-item"><div class="note-icon-wrap">💆</div><div class="note-item-main"><div class="note-item-title">Lefay spa — pre-book</div><div class="note-item-text">Pre-book spa treatments at Lefay Resort in advance. The wellness facilities are the centrepiece of the Lake Garda stay — book at time of hotel confirmation.</div></div></div>
-    <div class="note-item"><div class="note-icon-wrap">🍋</div><div class="note-item-main"><div class="note-item-title">Garda day trips</div><div class="note-item-text">Limone sul Garda and Salò are both under 30 minutes from Gargnano. Neither requires more than a short stroll and a long lunch. Keep effort low.</div></div></div>
-    <div class="note-item"><div class="note-icon-wrap">🚗</div><div class="note-item-main"><div class="note-item-title">Driving philosophy</div><div class="note-item-text">All legs are 3–5 hours including stops. Never push through — leave time to enjoy the scenery. The Mont Blanc tunnel on Day 3 is the scenic highlight of the drive.</div></div></div>
+    <div class="note-item"><div class="note-icon-wrap">🍋</div><div class="note-item-main"><div class="note-item-title">Garda day trips</div><div class="note-item-text">Limone sul Garda and Salò are both under 30 minutes from Gargnano. Neither requires more than a short stroll and a long lunch. Keep effort low. You're in Italy. "Effort" is not a concept that applies here.</div></div></div>
+    <div class="note-item"><div class="note-icon-wrap">🚗</div><div class="note-item-main"><div class="note-item-title">Driving philosophy</div><div class="note-item-text">All legs are 3–5 hours including stops. Never push through — leave time to enjoy the scenery. The Mont Blanc Tunnel on Day 3 costs ~€58 for 10 minutes of darkness, which means the light at the end is Italy — worth every cent.</div></div></div>
     <div class="note-item"><div class="note-icon-wrap">🌙</div><div class="note-item-main"><div class="note-item-title">Final day — no rush</div><div class="note-item-text">Day 10 is only 3 hours, Barive to Calais. Leave when ready, stop for coffee if you want, arrive with time to spare before the crossing.</div></div></div>
-    <div class="note-item"><div class="note-icon-wrap">🥂</div><div class="note-item-main"><div class="note-item-title">Food philosophy</div><div class="note-item-text">Prioritise one long, wonderful meal per day. All four lunch stops — Beaune, Aosta, Ascona, Colmar — are genuinely excellent choices.</div></div></div>
+    <div class="note-item"><div class="note-icon-wrap">🥂</div><div class="note-item-main"><div class="note-item-title">Food philosophy</div><div class="note-item-text">Prioritise one long, wonderful meal per day. All four lunch stops — Beaune, Aosta, Ascona, Colmar — are genuinely excellent. The baby will have opinions about everything soon enough. Today you still get to choose the restaurant.</div></div></div>
     <div class="note-item"><div class="note-icon-wrap">📱</div><div class="note-item-main"><div class="note-item-title">Using this page</div><div class="note-item-text">Works offline once loaded. Tap any day card to expand details. Use the tabs at the top (desktop) or bottom (mobile) to switch views.</div></div></div>
   </div>
 </section>
@@ -1597,7 +1684,7 @@
     <div class="checklist-group-hdr">🚗 Comfort &amp; On the Road</div>
     <label class="checklist-item"><input type="checkbox" data-key="cft1"><span class="checklist-item-text">Compression socks for long driving days (reduces DVT risk)</span></label>
     <label class="checklist-item"><input type="checkbox" data-key="cft2"><span class="checklist-item-text">Pregnancy pillow or lumbar support for the car</span></label>
-    <label class="checklist-item"><input type="checkbox" data-key="cft3"><span class="checklist-item-text">Snacks for the car — nausea-friendly options</span></label>
+    <label class="checklist-item"><input type="checkbox" data-key="cft3"><span class="checklist-item-text">Snacks for the car — nausea-friendly options (non-negotiable; pack twice as many as you think you need)</span></label>
     <label class="checklist-item"><input type="checkbox" data-key="cft4"><span class="checklist-item-text">Refillable water bottle for each driving day</span></label>
     <label class="checklist-item"><input type="checkbox" data-key="cft5"><span class="checklist-item-text">Phone charger + in-car adapter</span></label>
     <label class="checklist-item"><input type="checkbox" data-key="cft6"><span class="checklist-item-text">Comfortable flat shoes for town strolls</span></label>
@@ -1606,7 +1693,7 @@
 
   <div class="checklist-group">
     <div class="checklist-group-hdr">💆 Spa &amp; Wellness</div>
-    <label class="checklist-item"><input type="checkbox" data-key="spa1"><span class="checklist-item-text">Lefay Resort spa treatments pre-booked — fills fast, do this now</span></label>
+    <label class="checklist-item"><input type="checkbox" data-key="spa1"><span class="checklist-item-text">Lefay Resort spa treatments pre-booked — fills fast, do this now. Not after reading this. Now.</span></label>
     <label class="checklist-item"><input type="checkbox" data-key="spa2"><span class="checklist-item-text">LOISIUM Champagne — confirm pregnancy-safe treatment on arrival</span></label>
     <label class="checklist-item"><input type="checkbox" data-key="spa3"><span class="checklist-item-text">Pregnancy-safe sunscreen (SPF 50+, mineral preferred)</span></label>
   </div>
